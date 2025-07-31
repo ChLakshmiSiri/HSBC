@@ -21,6 +21,22 @@ class StockController {
     }
   }
 
+  // GET /api/stocks/:id
+  async getStockById(req, res) {
+    const { id } = req.params;
+    try {
+      const [rows] = await this.db.execute('SELECT * FROM stocks WHERE id = ?', [id]);
+      if (rows.length === 0) {
+        return res.status(404).json({ error: 'Stock not found' });
+      }
+      res.json(rows[0]);
+    } catch (error) {
+      console.error('Error fetching stock by ID:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
+  
+
   // POST /api/stocks
   async createStock(req, res) {
     const { ticker_symbol, company_name, quantity, buy_price, notes } = req.body;
@@ -42,11 +58,36 @@ class StockController {
     }
   }
 
+  // PUT /api/stocks/:id
+  async updateStock(req, res) {
+    const { id } = req.params;
+    const { ticker_symbol, company_name, quantity, buy_price, notes } = req.body;
+
+    try {
+      const [result] = await this.db.query(
+        'UPDATE stocks SET ticker_symbol = ?, company_name = ?, quantity = ?, buy_price = ?, notes = ? WHERE id = ?',
+        [ticker_symbol, company_name, quantity, buy_price, notes, id]
+      );
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'Stock not found' });
+      }
+
+      res.json({ message: 'Stock updated successfully' });
+    } catch (error) {
+      console.error('Error updating stock:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
+
   // DELETE /api/stocks/:id
   async deleteStock(req, res) {
     const { id } = req.params;
     try {
-      await this.db.query('DELETE FROM stocks WHERE id = ?', [id]);
+      const [result] = await this.db.query('DELETE FROM stocks WHERE id = ?', [id]);
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'Stock not found' });
+      }
       res.json({ message: 'Stock deleted successfully' });
     } catch (error) {
       console.error('Error deleting stock:', error);

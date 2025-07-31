@@ -6,19 +6,24 @@
 // const app = express();
 // const PORT = process.env.PORT || 3000;
 // app.use(express.json());
-
-// connectToDatabase()
-//   .then(() => {
-//     console.log('Connected to the database successfully');
-//     setRoutes(app);
+//setRoutes(app);
 //     setTransactionRoutes(app);
 //     app.listen(PORT, () => {
 //       console.log(`Server is running on port ${PORT}`);
 //     });
-//   })
-//   .catch((error) => {
-//     console.error('Error connecting to the database:', error);
-//   });
+
+// // connectToDatabase()
+// //   .then(() => {
+// //     console.log('Connected to the database successfully');
+// //     setRoutes(app);
+// //     setTransactionRoutes(app);
+// //     app.listen(PORT, () => {
+// //       console.log(`Server is running on port ${PORT}`);
+// //     });
+// //   })
+// //   .catch((error) => {
+// //     console.error('Error connecting to the database:', error);
+// //   });
 const express = require('express');
 const path = require('path');
 const { connectToDatabase } = require('./config/database');
@@ -26,7 +31,7 @@ const setStockRoutes = require('./routes/stockRoutes');
 const setTransactionRoutes = require('./routes/transactionRoutes');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3019;
 
 // Middleware to parse JSON requests
 app.use(express.json());
