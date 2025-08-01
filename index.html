@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stock Market Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .container {
+      padding: 2rem;
+    }
+    .chart-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 2rem;
+    }
+    .chart-box {
+      background: #111;
+      padding: 1rem;
+      border-radius: 10px;
+      width: 45%;
+      height: 300px;
+    }
+    .table-container {
+      margin-top: 2rem;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #111;
+    }
+    th, td {
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid #333;
+    }
+    th {
+      background-color: #222;
+    }
+    .positive {
+      color: #00ff00;
+    }
+    .negative {
+      color: #ff3333;
+    }
+    .buy-btn {
+      background: #0066ff;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .buy-btn:hover {
+      background: #0051cc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Market Overview</h1>
+
+    <div class="chart-container">
+      <div class="chart-box">
+        <canvas id="multiLineChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <canvas id="barChart"></canvas>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Stock Symbol</th>
+            <th>Current Price (USD)</th>
+            <th>Daily % Change</th>
+            <th>Buy</th>
+          </tr>
+        </thead>
+        <tbody id="stockTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+<script src="index.js"></script>
+</body>
+</html>
