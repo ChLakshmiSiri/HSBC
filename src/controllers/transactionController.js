@@ -1,5 +1,4 @@
 // controllers/transactionController.js
-
 const { connectToDatabase } = require('../config/database');
 
 class TransactionController {
@@ -12,7 +11,6 @@ class TransactionController {
     console.log('TransactionController DB connection established.');
   }
 
-  // GET /api/transactions
   async getTransactions(req, res) {
     try {
       const [rows] = await this.db.query('SELECT * FROM transactions');
@@ -23,7 +21,6 @@ class TransactionController {
     }
   }
 
-  // GET /api/transactions/:id
   async getTransactionById(req, res) {
     const { id } = req.params;
     try {
@@ -38,22 +35,36 @@ class TransactionController {
     }
   }
 
-  // POST /api/transactions
   async createTransaction(req, res) {
     const { ticker_symbol, type, quantity, price } = req.body;
     try {
+      const timestamp = new Date();
       await this.db.query(
-        'INSERT INTO transactions (ticker_symbol, type, quantity, price) VALUES (?, ?, ?, ?)',
-        [ticker_symbol, type, quantity, price]
+        'INSERT INTO transactions (ticker_symbol, type, quantity, price, timestamp) VALUES (?, ?, ?, ?, ?)',
+        [ticker_symbol, type, quantity, price, timestamp]
       );
-      res.json({ message: 'Transaction created successfully' });
+
+      const [rows] = await this.db.query('SELECT * FROM stocks WHERE ticker_symbol = ?', [ticker_symbol]);
+
+      if (rows.length > 0) {
+        let updatedQuantity = rows[0].quantity;
+        if (type.toUpperCase() === 'BUY') {
+          updatedQuantity += quantity;
+        } else if (type.toUpperCase() === 'SELL') {
+          updatedQuantity -= quantity;
+        }
+        await this.db.query('UPDATE stocks SET quantity = ? WHERE ticker_symbol = ?', [updatedQuantity, ticker_symbol]);
+      } else if (type.toUpperCase() === 'BUY') {
+        await this.db.query('INSERT INTO stocks (ticker_symbol, quantity) VALUES (?, ?)', [ticker_symbol, quantity]);
+      }
+
+      res.json({ message: 'Transaction created and stock updated successfully' });
     } catch (error) {
       console.error('Error creating transaction:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   }
 
-  // PUT /api/transactions/:id
   async updateTransaction(req, res) {
     const { id } = req.params;
     const { ticker_symbol, type, quantity, price } = req.body;
@@ -72,7 +83,6 @@ class TransactionController {
     }
   }
 
-  // DELETE /api/transactions/:id
   async deleteTransaction(req, res) {
     const { id } = req.params;
     try {

@@ -4,13 +4,14 @@ const router = Router();
 
 function setRoutes(app) {
   app.use('/api/stocks', router);
+  router.get('/', stockController.getStocks.bind(stockController));
+  router.get('/:id', stockController.getStockById.bind(stockController));
+  router.post('/', stockController.createStock.bind(stockController));
+  router.put('/:id', stockController.updateStock.bind(stockController));
+  router.delete('/:id', stockController.deleteStock.bind(stockController));
 
-  router.get('/', stockController.getStocks.bind(stockController));         // GET all stocks
-  router.get('/:id', stockController.getStockById.bind(stockController));   // 👈 GET stock by ID
-  router.post('/', stockController.createStock.bind(stockController));      // POST new stock
-  router.delete('/:id', stockController.deleteStock.bind(stockController)); // DELETE stock
-  // You can also add PUT for update
+  // New: Process transaction
+  router.post('/process-transaction', stockController.handleTransaction.bind(stockController));
 }
 
 module.exports = setRoutes;
-

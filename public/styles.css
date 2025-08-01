@@ -1,98 +1,37 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0;
-  background: #f4f6f9;
+  font-family: Arial, sans-serif;
+  margin: 2rem;
+  background: #f5f5f5;
+}
+
+h1 {
   color: #333;
 }
 
-.container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 20px;
+.form-container {
   background: white;
-  margin-top: 30px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #ccc;
+  max-width: 400px;
+  margin-bottom: 2rem;
 }
 
-header h1 {
-  font-size: 28px;
-  margin-bottom: 0;
+form label {
+  display: block;
+  margin-top: 1rem;
 }
 
-#updatedTime {
-  color: #666;
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-.transaction-form h2,
-.transaction-table h2 {
-  margin-top: 40px;
-  font-size: 22px;
-}
-
-form {
-  margin-top: 15px;
-}
-
-.form-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin-bottom: 15px;
-}
-
-input,
-select,
-textarea {
-  flex: 1;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-textarea {
-  resize: vertical;
-}
-
-.btn-submit {
-  background-color: #2c7be5;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.btn-clear {
-  background-color: #e0e0e0;
-  color: #333;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-table {
+form input,
+form select,
+form button {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
-}
-
-th, td {
-  text-align: left;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-th {
-  background-color: #f1f1f1;
-}
-
-.message {
-  color: green;
-  font-size: 14px;
+  padding: 8px;
   margin-top: 5px;
+}
+
+.transactions {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
 }

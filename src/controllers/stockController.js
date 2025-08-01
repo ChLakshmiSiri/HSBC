@@ -7,10 +7,9 @@ class StockController {
 
   async initDB() {
     this.db = await connectToDatabase();
-    console.log('Database connection established successfully.');
+    console.log('StockController DB connected.');
   }
 
-  // GET /api/stocks
   async getStocks(req, res) {
     try {
       const [rows] = await this.db.execute('SELECT * FROM stocks');
@@ -21,76 +20,93 @@ class StockController {
     }
   }
 
-  // GET /api/stocks/:id
   async getStockById(req, res) {
     const { id } = req.params;
     try {
       const [rows] = await this.db.execute('SELECT * FROM stocks WHERE id = ?', [id]);
-      if (rows.length === 0) {
-        return res.status(404).json({ error: 'Stock not found' });
-      }
+      if (rows.length === 0) return res.status(404).json({ error: 'Stock not found' });
       res.json(rows[0]);
     } catch (error) {
-      console.error('Error fetching stock by ID:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   }
-  
 
-  // POST /api/stocks
   async createStock(req, res) {
     const { ticker_symbol, company_name, quantity, buy_price, notes } = req.body;
     try {
-      await this.db.query(
+      await this.db.execute(
         'INSERT INTO stocks (ticker_symbol, company_name, quantity, buy_price, notes) VALUES (?, ?, ?, ?, ?)',
         [ticker_symbol, company_name, quantity, buy_price, notes]
       );
-
-      await this.db.query(
-        'INSERT INTO transactions (ticker_symbol, type, quantity, price) VALUES (?, "BUY", ?, ?)',
-        [ticker_symbol, quantity, buy_price]
-      );
-
       res.json({ message: 'Stock created successfully' });
     } catch (error) {
-      console.error('Error creating stock:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ error: 'Error creating stock' });
     }
   }
 
-  // PUT /api/stocks/:id
   async updateStock(req, res) {
     const { id } = req.params;
     const { ticker_symbol, company_name, quantity, buy_price, notes } = req.body;
 
     try {
-      const [result] = await this.db.query(
+      const [result] = await this.db.execute(
         'UPDATE stocks SET ticker_symbol = ?, company_name = ?, quantity = ?, buy_price = ?, notes = ? WHERE id = ?',
         [ticker_symbol, company_name, quantity, buy_price, notes, id]
       );
-
-      if (result.affectedRows === 0) {
-        return res.status(404).json({ error: 'Stock not found' });
-      }
-
+      if (result.affectedRows === 0) return res.status(404).json({ error: 'Stock not found' });
       res.json({ message: 'Stock updated successfully' });
     } catch (error) {
-      console.error('Error updating stock:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ error: 'Error updating stock' });
     }
   }
 
-  // DELETE /api/stocks/:id
   async deleteStock(req, res) {
     const { id } = req.params;
     try {
-      const [result] = await this.db.query('DELETE FROM stocks WHERE id = ?', [id]);
-      if (result.affectedRows === 0) {
-        return res.status(404).json({ error: 'Stock not found' });
-      }
+      const [result] = await this.db.execute('DELETE FROM stocks WHERE id = ?', [id]);
+      if (result.affectedRows === 0) return res.status(404).json({ error: 'Stock not found' });
       res.json({ message: 'Stock deleted successfully' });
     } catch (error) {
-      console.error('Error deleting stock:', error);
+      res.status(500).json({ error: 'Error deleting stock' });
+    }
+  }
+
+  // NEW: Handle transaction and update stocks accordingly
+  async handleTransaction(req, res) {
+    const { ticker_symbol, type, quantity, price } = req.body;
+    try {
+      // Add transaction
+      await this.db.execute(
+        'INSERT INTO transactions (ticker_symbol, type, quantity, price) VALUES (?, ?, ?, ?)',
+        [ticker_symbol, type.toUpperCase(), quantity, price]
+      );
+
+      // Get stock
+      const [existing] = await this.db.execute(
+        'SELECT * FROM stocks WHERE ticker_symbol = ?',
+        [ticker_symbol]
+      );
+
+      if (existing.length > 0) {
+        const currentQty = existing[0].quantity;
+        const newQty = type.toUpperCase() === 'BUY'
+          ? currentQty + quantity
+          : currentQty - quantity;
+
+        await this.db.execute(
+          'UPDATE stocks SET quantity = ? WHERE ticker_symbol = ?',
+          [newQty, ticker_symbol]
+        );
+      } else if (type.toUpperCase() === 'BUY') {
+        await this.db.execute(
+          'INSERT INTO stocks (ticker_symbol, company_name, quantity, buy_price) VALUES (?, ?, ?, ?)',
+          [ticker_symbol, ticker_symbol + ' Inc.', quantity, price]
+        );
+      }
+
+      res.json({ message: 'Transaction processed successfully' });
+    } catch (error) {
+      console.error('Transaction failed:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   }
