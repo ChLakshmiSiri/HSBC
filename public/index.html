@@ -2,388 +2,103 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Stock Portfolio - Buy/Sell Stocks</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stock Transaction Gallery</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- Login Page -->
-  <div id="page-login" class="container">
-    <h2>User Login</h2>
-    <label for="username">Username:</label>
-    <input id="username" type="text" placeholder="Enter username" autocomplete="off" />
-    <button id="btn-login">Login</button>
+  <div class="container">
+    <header>
+      <h1>📊 Stock Transaction Gallery</h1>
+      <p id="updatedTime">Updated: --:--:--</p>
+    </header>
+
+    <section class="transaction-form">
+      <h2>Submit Transaction</h2>
+      <form id="transactionForm">
+        <div class="form-row">
+          <input type="text" id="user" placeholder="User ID" required />
+          <input type="text" id="symbol" placeholder="Stock Symbol" required />
+          <input type="text" id="company" placeholder="Company Name" required />
+        </div>
+        <div class="form-row">
+          <select id="type" required>
+            <option value="">Select Transaction Type</option>
+            <option value="BUY">BUY</option>
+            <option value="SELL">SELL</option>
+          </select>
+          <input type="number" id="qty" placeholder="Quantity" required />
+          <input type="number" id="price" placeholder="Price" required />
+        </div>
+        <div class="form-row">
+          <input type="text" id="sector" placeholder="Sector (optional)" />
+          <input type="date" id="date" />
+        </div>
+        <div class="form-row">
+          <button type="submit" class="btn-submit">Submit</button>
+          <button type="reset" class="btn-clear">Clear</button>
+        </div>
+        <p class="message" id="formMessage"></p>
+      </form>
+    </section>
+
+    <section class="transaction-table">
+      <h2>View Transactions</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Stock</th>
+            <th>Type</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Date</th>
+            <th>Company</th>
+          </tr>
+        </thead>
+        <tbody id="transactionsBody">
+          <!-- JavaScript will populate this -->
+        </tbody>
+      </table>
+    </section>
   </div>
 
-  <!-- Transaction CRUD Page (Buy/Sell) -->
-  <div id="page-transaction" class="container hidden">
-    <h2>Buy or Sell Stocks</h2>
-    <div class="form-group">
-      <label for="transaction-type">Transaction Type:</label>
-      <select id="transaction-type">
-        <option value="" disabled selected>Select Type</option>
-        <option value="BUY">Buy</option>
-        <option value="SELL">Sell</option>
-      </select>
-    </div>
+  <script>
+    // Time updater
+    setInterval(() => {
+      document.getElementById('updatedTime').textContent =
+        'Updated: ' + new Date().toLocaleTimeString();
+    }, 1000);
 
-    <div id="buy-sell-fields" class="hidden">
-      <!-- For Buy: ticker_symbol textbox, company_name textbox
-           For Sell: ticker_symbol dropdown (existing stocks only) -->
-      <div class="form-group" id="ticker-group">
-        <label for="ticker-input">Ticker Symbol:</label>
-        <input id="ticker-input" type="text" placeholder="Enter or select ticker symbol" autocomplete="off" />
-        <select id="ticker-select" class="hidden"></select>
-      </div>
+    // Form handler (for real app, replace with fetch POST)
+    document.getElementById('transactionForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const user = document.getElementById('user').value;
+      const symbol = document.getElementById('symbol').value;
+      const company = document.getElementById('company').value;
+      const type = document.getElementById('type').value;
+      const qty = document.getElementById('qty').value;
+      const price = document.getElementById('price').value;
+      const date = document.getElementById('date').value || new Date().toISOString().split('T')[0];
 
-      <div id="company-container" class="form-group">
-        <label for="company-input">Company Name:</label>
-        <input id="company-input" type="text" placeholder="Enter company name" autocomplete="off" />
-      </div>
-
-      <div class="form-group">
-        <label for="quantity-input">Quantity:</label>
-        <input id="quantity-input" type="number" min="1" placeholder="Enter quantity" />
-      </div>
-
-      <div class="form-group">
-        <label for="price-input">Price (per share):</label>
-        <input id="price-input" type="number" min="0.01" step="0.01" placeholder="Enter price" />
-      </div>
-
-      <div class="form-group">
-        <label for="notes-input">Notes (optional):</label>
-        <input id="notes-input" type="text" placeholder="Notes" />
-      </div>
-
-      <button id="btn-submit-transaction">Submit Transaction</button>
-      <button id="btn-cancel-transaction" class="link-button">Cancel</button>
-    </div>
-
-    <button id="btn-logout-transaction" class="link-button" style="margin-top: 20px;">Logout</button>
-  </div>
-
-  <!-- Stocks Display Page -->
-  <div id="page-stocks" class="container hidden">
-    <h2>Current Stocks Portfolio</h2>
-    <table id="stocks-table">
-      <thead>
+      const row = `
         <tr>
-          <th>Ticker Symbol</th>
-          <th>Company Name</th>
-          <th>Quantity</th>
-          <th>Average Buy Price</th>
-          <th>Notes</th>
+          <td>${user}</td>
+          <td>${symbol}</td>
+          <td>${type}</td>
+          <td>${qty}</td>
+          <td>${price}</td>
+          <td>${date}</td>
+          <td>${company}</td>
         </tr>
-      </thead>
-      <tbody id="stocks-tbody">
-        <tr><td colspan="5" class="text-center">No stocks owned.</td></tr>
-      </tbody>
-    </table>
-    <button id="btn-go-transaction" style="margin-top:15px;">Buy/Sell Stocks</button>
-    <button id="btn-logout-stocks" class="link-button" style="margin-top:10px;">Logout</button>
-  </div>
-
-<script>
-  // ====== State Variables =======
-  let currentUser = null;
-  let stocks = [];       // {id, ticker_symbol, company_name, quantity, buy_price, notes}
-  let transactions = []; // {id, ticker_symbol, type, quantity, price, timestamp}
-
-  // ====== DOM Elements =======
-  const pageLogin = document.getElementById('page-login');
-  const pageTransaction = document.getElementById('page-transaction');
-  const pageStocks = document.getElementById('page-stocks');
-
-  const usernameInput = document.getElementById('username');
-  const btnLogin = document.getElementById('btn-login');
-
-  const transactionTypeSelect = document.getElementById('transaction-type');
-  const buySellFields = document.getElementById('buy-sell-fields');
-
-  const tickerInput = document.getElementById('ticker-input');
-  const tickerSelect = document.getElementById('ticker-select');
-  const tickerGroup = document.getElementById('ticker-group');
-
-  const companyContainer = document.getElementById('company-container');
-  const companyInput = document.getElementById('company-input');
-
-  const quantityInput = document.getElementById('quantity-input');
-  const priceInput = document.getElementById('price-input');
-  const notesInput = document.getElementById('notes-input');
-
-  const btnSubmitTransaction = document.getElementById('btn-submit-transaction');
-  const btnCancelTransaction = document.getElementById('btn-cancel-transaction');
-  const btnLogoutTransaction = document.getElementById('btn-logout-transaction');
-
-  const stocksTableBody = document.getElementById('stocks-tbody');
-  const btnGoTransaction = document.getElementById('btn-go-transaction');
-  const btnLogoutStocks = document.getElementById('btn-logout-stocks');
-
-
-  // ====== Helper Functions ======
-
-  function showPage(pageDiv) {
-    pageLogin.classList.add('hidden');
-    pageTransaction.classList.add('hidden');
-    pageStocks.classList.add('hidden');
-
-    pageDiv.classList.remove('hidden');
-  }
-
-  function renderStocks() {
-    stocksTableBody.innerHTML = '';
-    if (stocks.length === 0) {
-      stocksTableBody.innerHTML = `<tr><td colspan="5" class="text-center">No stocks owned.</td></tr>`;
-      return;
-    }
-
-    stocks.forEach(stock => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${stock.ticker_symbol}</td>
-        <td>${stock.company_name}</td>
-        <td>${stock.quantity}</td>
-        <td>$${stock.buy_price.toFixed(2)}</td>
-        <td>${stock.notes || ''}</td>
       `;
-      stocksTableBody.appendChild(tr);
+      document.getElementById('transactionsBody').innerHTML += row;
+
+      document.getElementById('formMessage').textContent = '✅ Transaction submitted!';
+      this.reset();
     });
-  }
-
-  function updateTickerOptions() {
-    // For Sell: show tickerSelect with current stocks
-    tickerSelect.innerHTML = '';
-    if (stocks.length === 0) {
-      tickerSelect.innerHTML = `<option disabled>No stocks available</option>`;
-      tickerSelect.disabled = true;
-    } else {
-      tickerSelect.disabled = false;
-      tickerSelect.innerHTML = `<option value="" disabled selected>Select ticker</option>`;
-      stocks.forEach(stock => {
-        let option = document.createElement('option');
-        option.value = stock.ticker_symbol;
-        option.textContent = `${stock.ticker_symbol} (${stock.company_name}) - Qty: ${stock.quantity}`;
-        tickerSelect.appendChild(option);
-      });
-    }
-  }
-
-  function clearTransactionForm() {
-    transactionTypeSelect.selectedIndex = 0;
-    buySellFields.classList.add('hidden');
-    tickerInput.value = '';
-    companyInput.value = '';
-    quantityInput.value = '';
-    priceInput.value = '';
-    notesInput.value = '';
-    tickerInput.classList.remove('hidden');
-    tickerSelect.classList.add('hidden');
-    companyContainer.classList.remove('hidden');
-  }
-
-  function addTransactionRecord(ticker_symbol, type, quantity, price) {
-    const newTransaction = {
-      id: Date.now(),
-      ticker_symbol,
-      type,
-      quantity,
-      price,
-      timestamp: new Date().toISOString()
-    };
-    transactions.push(newTransaction);
-  }
-
-  function buyStock(ticker_symbol, company_name, quantity, price, notes) {
-    // Check if stock already exists
-    const stockIndex = stocks.findIndex(s => s.ticker_symbol.toUpperCase() === ticker_symbol.toUpperCase());
-    if (stockIndex !== -1) {
-      // Update existing stock quantity and average buy price
-      let stock = stocks[stockIndex];
-      const totalQuantity = stock.quantity + quantity;
-      const totalCost = (stock.buy_price * stock.quantity) + (price * quantity);
-      stock.quantity = totalQuantity;
-      stock.buy_price = parseFloat((totalCost / totalQuantity).toFixed(2));
-      if (notes) stock.notes = notes;
-    } else {
-      // Add new stock
-      stocks.push({
-        id: Date.now(),
-        ticker_symbol: ticker_symbol.toUpperCase(),
-        company_name,
-        quantity,
-        buy_price: price,
-        notes
-      });
-    }
-  }
-
-  function sellStock(ticker_symbol, quantity) {
-    const stockIndex = stocks.findIndex(s => s.ticker_symbol === ticker_symbol);
-    if (stockIndex === -1) return false; // Stock not found
-
-    let stock = stocks[stockIndex];
-    if (quantity > stock.quantity) return false; // Not enough quantity to sell
-
-    stock.quantity -= quantity;
-    if (stock.quantity === 0) {
-      stocks.splice(stockIndex, 1);
-    }
-    return true;
-  }
-
-  // ====== Event Handlers ======
-
-  btnLogin.addEventListener('click', () => {
-    const username = usernameInput.value.trim();
-    if (!username) {
-      alert('Please enter your username to login');
-      return;
-    }
-    currentUser = username;
-    alert(`Welcome, ${currentUser}!`);
-    showPage(pageStocks);
-    renderStocks();
-  });
-
-  btnGoTransaction.addEventListener('click', () => {
-    showPage(pageTransaction);
-    clearTransactionForm();
-  });
-
-  btnLogoutStocks.addEventListener('click', () => {
-    currentUser = null;
-    stocks = [];
-    transactions = [];
-    usernameInput.value = '';
-    clearTransactionForm();
-    showPage(pageLogin);
-  });
-
-  btnLogoutTransaction.addEventListener('click', () => {
-    currentUser = null;
-    stocks = [];
-    transactions = [];
-    usernameInput.value = '';
-    clearTransactionForm();
-    showPage(pageLogin);
-  });
-
-  transactionTypeSelect.addEventListener('change', () => {
-    const selected = transactionTypeSelect.value;
-    if (!selected) {
-      buySellFields.classList.add('hidden');
-      return;
-    }
-
-    buySellFields.classList.remove('hidden');
-
-    if (selected === "BUY") {
-      // For buy: show ticker input and company name input
-      tickerInput.classList.remove('hidden');
-      tickerInput.value = '';
-      tickerSelect.classList.add('hidden');
-      companyContainer.classList.remove('hidden');
-      companyInput.value = '';
-      updateTickerOptions(); // keep this updated for later sells
-    } else if (selected === "SELL") {
-      // For sell: show ticker dropdown, hide ticker input and company input
-      tickerInput.classList.add('hidden');
-      tickerSelect.classList.remove('hidden');
-      companyContainer.classList.add('hidden');
-      companyInput.value = '';
-      updateTickerOptions();
-      // Reset ticker select value to default
-      tickerSelect.selectedIndex = 0;
-    }
-  });
-
-  btnCancelTransaction.addEventListener('click', () => {
-    clearTransactionForm();
-    showPage(pageStocks);
-  });
-
-  btnSubmitTransaction.addEventListener('click', () => {
-    const type = transactionTypeSelect.value;
-    if (!type) {
-      alert("Please select 'Buy' or 'Sell'");
-      return;
-    }
-
-    let ticker_symbol = null;
-    let company_name = null;
-    const quantity = parseInt(quantityInput.value);
-    const price = parseFloat(priceInput.value);
-    const notes = notesInput.value.trim();
-
-    if (isNaN(quantity) || quantity <= 0) {
-      alert('Please enter a valid positive quantity');
-      return;
-    }
-
-    if (isNaN(price) || price <= 0) {
-      alert('Please enter a valid positive price');
-      return;
-    }
-
-    if (type === "BUY") {
-      ticker_symbol = tickerInput.value.trim().toUpperCase();
-      company_name = companyInput.value.trim();
-
-      if (!ticker_symbol) {
-        alert('Please enter ticker symbol');
-        return;
-      }
-      if (!company_name) {
-        alert('Please enter company name');
-        return;
-      }
-
-      // Add transaction
-      addTransactionRecord(ticker_symbol, 'BUY', quantity, price);
-      buyStock(ticker_symbol, company_name, quantity, price, notes);
-      alert(`Bought ${quantity} shares of ${ticker_symbol} at $${price.toFixed(2)} per share.`);
-
-    } else if (type === "SELL") {
-      ticker_symbol = tickerSelect.value;
-      if (!ticker_symbol) {
-        alert('Please select a ticker to sell');
-        return;
-      }
-
-      // Check sufficient quantity
-      const stock = stocks.find(s => s.ticker_symbol === ticker_symbol);
-      if (!stock) {
-        alert(`No stocks found with ticker ${ticker_symbol}`);
-        return;
-      }
-      if (quantity > stock.quantity) {
-        alert(`Not enough shares to sell. You have ${stock.quantity} shares.`);
-        return;
-      }
-
-      // Add transaction
-      addTransactionRecord(ticker_symbol, 'SELL', quantity, price);
-      const success = sellStock(ticker_symbol, quantity);
-      if (!success) {
-        alert('Error during selling stock');
-        return;
-      }
-      alert(`Sold ${quantity} shares of ${ticker_symbol} at $${price.toFixed(2)} per share.`);
-    } else {
-      // Should not happen
-      alert('Invalid transaction type');
-      return;
-    }
-
-    renderStocks();
-    clearTransactionForm();
-    showPage(pageStocks);
-  });
-
-</script>
-
+  </script>
 
 </body>
 </html>
