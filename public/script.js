@@ -1,46 +1,65 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    const form = document.getElementById('transactionForm');
-    const tickerSelect = document.getElementById('ticker_symbol');
-    const transactionList = document.getElementById('transactionList');
+// Fetch stock symbols for dropdown
+async function fetchStockSymbols() {
+    const res = await fetch('/api/stocks');
+    const data = await res.json();
+    const select = document.getElementById('ticker_symbol');
+    data.forEach(stock => {
+      const option = document.createElement('option');
+      option.value = stock.ticker_symbol;
+      option.textContent = `${stock.ticker_symbol} - ${stock.company_name}`;
+      select.appendChild(option);
+    });
+  }
   
-    // Populate ticker dropdown
-    const stocks = await fetch('/api/stocks').then(res => res.json());
-    stocks.forEach(stock => {
-      const opt = document.createElement('option');
-      opt.value = stock.ticker_symbol;
-      opt.text = stock.ticker_symbol;
-      tickerSelect.appendChild(opt);
+  // Fetch transactions for table
+  async function fetchTransactions() {
+    const res = await fetch('/api/transactions');
+    const data = await res.json();
+    const tbody = document.querySelector('#transactionsTable tbody');
+    tbody.innerHTML = '';
+    data.forEach(tx => {
+      const row = `<tr>
+        <td>${tx.id}</td>
+        <td>${tx.ticker_symbol}</td>
+        <td>${tx.type}</td>
+        <td>${tx.quantity}</td>
+        <td>${tx.price}</td>
+        <td>${new Date(tx.timestamp).toLocaleString()}</td>
+      </tr>`;
+      tbody.innerHTML += row;
+    });
+  }
+  
+  // Submit form
+  document.getElementById('transactionForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const payload = {
+      ticker_symbol: document.getElementById('ticker_symbol').value,
+      type: document.getElementById('type').value,
+      quantity: parseInt(document.getElementById('quantity').value),
+      price: parseFloat(document.getElementById('price').value)
+    };
+  
+    const res = await fetch('/api/transactions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
     });
   
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const data = {
-        ticker_symbol: form.ticker_symbol.value,
-        type: form.type.value,
-        quantity: parseInt(form.quantity.value),
-        price: parseFloat(form.price.value)
-      };
-  
-      await fetch('/api/stocks/process-transaction', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-  
-      form.reset();
-      loadTransactions();
-    });
-  
-    async function loadTransactions() {
-      const transactions = await fetch('/api/transactions').then(res => res.json());
-      transactionList.innerHTML = '';
-      transactions.forEach(tx => {
-        const li = document.createElement('li');
-        li.textContent = `${tx.ticker_symbol} - ${tx.type} ${tx.quantity} @ ${tx.price} on ${new Date(tx.timestamp).toLocaleString()}`;
-        transactionList.appendChild(li);
-      });
+    if (res.ok) {
+      await fetchTransactions();
+      e.target.reset();
     }
-  
-    loadTransactions();
   });
+  
+  // Live timestamp
+  function updateTime() {
+    document.getElementById('updatedTime').textContent = 'Updated: ' + new Date().toLocaleTimeString();
+  }
+  setInterval(updateTime, 1000);
+  
+  // Init
+  fetchStockSymbols();
+  fetchTransactions();
+  updateTime();
   
