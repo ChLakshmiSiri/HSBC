@@ -1,4 +1,3 @@
-// controllers/transactionController.js
 const { connectToDatabase } = require('../config/database');
 
 class TransactionController {
@@ -13,7 +12,7 @@ class TransactionController {
 
   async getTransactions(req, res) {
     try {
-      const [rows] = await this.db.query('SELECT * FROM transactions');
+      const [rows] = await this.db.query('SELECT * FROM transactions ORDER BY timestamp DESC');
       res.json(rows);
     } catch (error) {
       console.error('Error fetching transactions:', error);
@@ -36,26 +35,30 @@ class TransactionController {
   }
 
   async createTransaction(req, res) {
-    const { ticker_symbol, type, quantity, price } = req.body;
+    let { ticker_symbol, type, quantity, price } = req.body;
+    ticker_symbol = ticker_symbol.toUpperCase();
+
     try {
-      const timestamp = new Date();
       await this.db.query(
-        'INSERT INTO transactions (ticker_symbol, type, quantity, price, timestamp) VALUES (?, ?, ?, ?, ?)',
-        [ticker_symbol, type, quantity, price, timestamp]
+        'INSERT INTO transactions (ticker_symbol, type, quantity, price, timestamp) VALUES (?, ?, ?, ?, NOW())',
+        [ticker_symbol, type.toUpperCase(), quantity, price]
       );
 
-      const [rows] = await this.db.query('SELECT * FROM stocks WHERE ticker_symbol = ?', [ticker_symbol]);
+      const [stocks] = await this.db.query('SELECT * FROM stocks WHERE ticker_symbol = ?', [ticker_symbol]);
 
-      if (rows.length > 0) {
-        let updatedQuantity = rows[0].quantity;
-        if (type.toUpperCase() === 'BUY') {
-          updatedQuantity += quantity;
-        } else if (type.toUpperCase() === 'SELL') {
-          updatedQuantity -= quantity;
-        }
-        await this.db.query('UPDATE stocks SET quantity = ? WHERE ticker_symbol = ?', [updatedQuantity, ticker_symbol]);
-      } else if (type.toUpperCase() === 'BUY') {
-        await this.db.query('INSERT INTO stocks (ticker_symbol, quantity) VALUES (?, ?)', [ticker_symbol, quantity]);
+      if (stocks.length > 0) {
+        let newQty = type === 'BUY'
+          ? stocks[0].quantity + quantity
+          : stocks[0].quantity - quantity;
+
+        await this.db.query('UPDATE stocks SET quantity = ?, buy_price = ? WHERE ticker_symbol = ?', [newQty, price, ticker_symbol]);
+      } else if (type === 'BUY') {
+        await this.db.query('INSERT INTO stocks (ticker_symbol, company_name, quantity, buy_price) VALUES (?, ?, ?, ?)', [
+          ticker_symbol,
+          `${ticker_symbol} Inc.`,
+          quantity,
+          price
+        ]);
       }
 
       res.json({ message: 'Transaction created and stock updated successfully' });

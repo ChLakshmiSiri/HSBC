@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stock Portfolio Manager</title>
+  <title>Analysis - Stock Portfolio</title>
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -16,8 +16,17 @@
     <button id="theme-toggle">🌙</button>
   </header>
   <main class="dashboard">
-    <h1>Welcome to Stock Portfolio Manager</h1>
-    <p style="text-align: center;">Use the navigation to explore your portfolio.</p>
+    <h1>Portfolio Analysis</h1>
+    <section class="chart-section">
+      <h2>Total Portfolio Value: $<span id="portfolio-value">0</span></h2>
+      <canvas id="allocationChart" width="400" height="200"></canvas>
+    </section>
+
+    <section class="activity-feed">
+      <h2>Recent Activity</h2>
+      <ul id="recent-activity"></ul>
+    </section>
   </main>
+  <script src="script.js"></script>
 </body>
 </html>

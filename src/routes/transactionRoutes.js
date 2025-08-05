@@ -1,5 +1,3 @@
-// routes/transactionRoutes.js
-
 const { Router } = require('express');
 const transactionController = require('../controllers/transactionController');
 const router = Router();
