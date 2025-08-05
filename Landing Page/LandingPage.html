@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pookie Portfolio</title>
+  <link rel="stylesheet" href="LandingPageStyle.css" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    /* Welcome Modal */
+    #welcome-card {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.7);
+      background: #ffccf9;
+      color: #000;
+      padding: 3rem 2rem;
+      border-radius: 20px;
+      box-shadow: 0 0 25px #fff4ff;
+      text-align: center;
+      opacity: 0;
+      animation: zoomIn 0.8s ease-out forwards;
+      z-index: 9999;
+    }
+
+    #welcome-card h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    #enter-btn {
+      background: #ff6ec7;
+      border: none;
+      padding: 0.8rem 2rem;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    #enter-btn:hover {
+      background: #ff3fba;
+      transform: scale(1.05);
+    }
+
+    @keyframes zoomIn {
+      to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* Hide rest of content initially */
+    #main-content {
+      display: none;
+    }
+
+    #branding-title {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      color: #ffadeb;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10000;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Welcome Popup -->
+  <div id="welcome-card">
+    <h1>Welcome to StoxSavvy 💸</h1>
+    <p>Let’s get that portfolio popping, pookie! 💖</p>
+    <button id="enter-btn">Enter</button>
+  </div>
+
+  <!-- Main Content -->
+  <div id="main-content">
+    <div id="branding-title">✨ StoxSavvy ✨</div>
+
+    <header>
+        <h1 id="typing-text"></h1>
+
+      
+    </header>
+
+    <div class="main-container">
+      <!-- Left: Top Performing Stocks Tabs -->
+      <aside class="top-stocks">
+        <div class="tabs">
+          <button class="tab active" onclick="showTab('apple')">🍎 Apple</button>
+          <button class="tab" onclick="showTab('tesla')">🚗 Tesla</button>
+          <button class="tab" onclick="showTab('amazon')">📦 Amazon</button>
+        </div>
+
+        <div class="tab-content">
+          <div id="apple" class="tab-pane active">
+            <h3>Apple Inc.</h3>
+            <p>Price: $189.67</p>
+            <p>Change: +1.2%</p>
+          </div>
+          <div id="tesla" class="tab-pane">
+            <h3>Tesla Inc.</h3>
+            <p>Price: $720.50</p>
+            <p>Change: +2.9%</p>
+          </div>
+          <div id="amazon" class="tab-pane">
+            <h3>Amazon</h3>
+            <p>Price: $134.80</p>
+            <p>Change: +0.5%</p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Center: Stock Cards -->
+      <main class="stock-cards">
+        <div class="card" onclick="location.href='global.html'" style="cursor: pointer;">
+            Global 🌍
+          </div>
+          <div class="card" onclick="location.href='buysell.html'" style="cursor: pointer;">
+            Buy/Sell 🔄
+          </div>
+          <div class="card" onclick="location.href='transactions.html'" style="cursor: pointer;">
+            Transactions 📊
+          </div>
+          <div class="card" onclick="location.href='stocks.html'" style="cursor: pointer;">
+            Stocks 💼
+          </div>
+      </main>
+
+      <!-- Right: User Profile -->
+      <aside class="user-profile">
+        <img src="profileImg.png" alt="Profile Pic" />
+        <h2>Jane Austen</h2>
+        <p>ID: BK03D4957</p>
+      </aside>
+    </div>
+
+    <footer>
+      <p style="text-align:center; color:#aaa; margin-top:2rem;">&copy; 2025 StoxSavvy. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    const enterBtn = document.getElementById("enter-btn");
+    const welcomeCard = document.getElementById("welcome-card");
+    const mainContent = document.getElementById("main-content");
+
+    enterBtn.addEventListener("click", () => {
+      welcomeCard.style.display = "none";
+      mainContent.style.display = "block";
+      document.body.style.overflow = "auto";
+
+      // 🎉 Confetti Party
+      const duration = 1.5 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 };
+
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      const interval = setInterval(() => {
+        const timeLeft = animationEnd - Date.now();
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        confetti({
+          particleCount: 50,
+          origin: {
+            x: randomInRange(0.1, 0.9),
+            y: Math.random() - 0.2
+          },
+          ...defaults
+        });
+      }, 250);
+    });
+
+    function showTab(tabId) {
+      const panes = document.querySelectorAll(".tab-pane");
+      const tabs = document.querySelectorAll(".tab");
+
+      panes.forEach((pane) => pane.classList.remove("active"));
+      tabs.forEach((tab) => tab.classList.remove("active"));
+
+      document.getElementById(tabId).classList.add("active");
+      event.currentTarget.classList.add("active");
+    }
+    // Typing Effect for header
+const typingText = "Hello Miss Jane Austen, let’s rock today’s stocks 📈";
+const typingElement = document.getElementById("typing-text");
+let index = 0;
+
+function typeWriter() {
+  if (index < typingText.length) {
+    typingElement.innerHTML += typingText.charAt(index);
+    index++;
+    setTimeout(typeWriter, 50); // typing speed
+  }
+}
+
+// Trigger typing effect after welcome screen
+enterBtn.addEventListener("click", () => {
+  welcomeCard.style.display = "none";
+  mainContent.style.display = "block";
+  document.body.style.overflow = "auto";
+
+  typeWriter(); // ✨ Start typing!
+
+  // 🎉 Confetti Party
+  const duration = 1.5 * 1000;
+  const animationEnd = Date.now() + duration;
+  const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 };
+
+  function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  const interval = setInterval(() => {
+    const timeLeft = animationEnd - Date.now();
+    if (timeLeft <= 0) {
+      return clearInterval(interval);
+    }
+
+    confetti({
+      particleCount: 50,
+      origin: {
+        x: randomInRange(0.1, 0.9),
+        y: Math.random() - 0.2
+      },
+      ...defaults
+    });
+  }, 250);
+});
+
+  </script>
+  
+
+</body>
+</html>
