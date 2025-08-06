@@ -1,104 +1,133 @@
-const { connectToDatabase } = require('../config/database');
+// <<<<<<< frontend
+// const Transaction = require("../models/transactionModel");
 
-class TransactionController {
-  constructor() {
-    this.initDB();
-  }
+// exports.getAllTransactions = async (req, res) => {
+//   try {
+//     const data = await Transaction.getAllTransactions();
+//     res.json(data);
+//   } catch (err) {
+//     res.status(500).send({ message: "Error fetching transactions", error: err });
+// =======
+// const { connectToDatabase } = require('../config/database');
 
-  async initDB() {
-    this.db = await connectToDatabase();
-    console.log('TransactionController DB connection established.');
-  }
+// class TransactionController {
+//   constructor() {
+//     this.initDB();
+// >>>>>>> master
+//   }
+// };
 
-  async getTransactions(req, res) {
-    try {
-      const [rows] = await this.db.query('SELECT * FROM transactions ORDER BY timestamp DESC');
-      res.json(rows);
-    } catch (error) {
-      console.error('Error fetching transactions:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  }
+// exports.getTransactionById = async (req, res) => {
+//   try {
+//     const data = await Transaction.getTransactionById(req.params.id);
+//     if (!data) return res.status(404).json({ message: "Transaction not found" });
+//     res.json(data);
+//   } catch (err) {
+//     res.status(500).send({ message: "Error fetching transaction", error: err });
+//   }
+// <<<<<<< frontend
+// };
 
-  async getTransactionById(req, res) {
-    const { id } = req.params;
-    try {
-      const [rows] = await this.db.query('SELECT * FROM transactions WHERE id = ?', [id]);
-      if (rows.length === 0) {
-        return res.status(404).json({ error: 'Transaction not found' });
-      }
-      res.json(rows[0]);
-    } catch (error) {
-      console.error('Error fetching transaction:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  }
+// exports.addTransaction = async (req, res) => {
+//   try {
+//     const result = await Transaction.addTransaction(req.body);
+//     res.json({ message: "Transaction added!", id: result.insertId });
+//   } catch (err) {
+//     res.status(500).send({ message: "Error adding transaction", error: err });
+// =======
 
-  async createTransaction(req, res) {
-    let { ticker_symbol, type, quantity, price } = req.body;
-    ticker_symbol = ticker_symbol.toUpperCase();
+//   async getTransactions(req, res) {
+//     try {
+//       const [rows] = await this.db.query('SELECT * FROM transactions ORDER BY timestamp DESC');
+//       res.json(rows);
+//     } catch (error) {
+//       console.error('Error fetching transactions:', error);
+//       res.status(500).json({ error: 'Internal Server Error' });
+//     }
+// >>>>>>> master
+//   }
+// };
 
-    try {
-      await this.db.query(
-        'INSERT INTO transactions (ticker_symbol, type, quantity, price, timestamp) VALUES (?, ?, ?, ?, NOW())',
-        [ticker_symbol, type.toUpperCase(), quantity, price]
-      );
+// exports.deleteTransactionById = async (req, res) => {
+//   try {
+//     const result = await Transaction.deleteTransactionById(req.params.id);
+//     if (result.affectedRows === 0) {
+//       return res.status(404).json({ message: "Transaction not found" });
+//     }
+//     res.json({ message: "Transaction deleted successfully!" });
+//   } catch (err) {
+//     res.status(500).send({ message: "Error deleting transaction", error: err });
+//   }
+// <<<<<<< frontend
+// };
+// =======
 
-      const [stocks] = await this.db.query('SELECT * FROM stocks WHERE ticker_symbol = ?', [ticker_symbol]);
+//   async createTransaction(req, res) {
+//     let { ticker_symbol, type, quantity, price } = req.body;
+//     ticker_symbol = ticker_symbol.toUpperCase();
 
-      if (stocks.length > 0) {
-        let newQty = type === 'BUY'
-          ? stocks[0].quantity + quantity
-          : stocks[0].quantity - quantity;
+//     try {
+//       await this.db.query(
+//         'INSERT INTO transactions (ticker_symbol, type, quantity, price, timestamp) VALUES (?, ?, ?, ?, NOW())',
+//         [ticker_symbol, type.toUpperCase(), quantity, price]
+//       );
 
-        await this.db.query('UPDATE stocks SET quantity = ?, buy_price = ? WHERE ticker_symbol = ?', [newQty, price, ticker_symbol]);
-      } else if (type === 'BUY') {
-        await this.db.query('INSERT INTO stocks (ticker_symbol, company_name, quantity, buy_price) VALUES (?, ?, ?, ?)', [
-          ticker_symbol,
-          `${ticker_symbol} Inc.`,
-          quantity,
-          price
-        ]);
-      }
+//       const [stocks] = await this.db.query('SELECT * FROM stocks WHERE ticker_symbol = ?', [ticker_symbol]);
 
-      res.json({ message: 'Transaction created and stock updated successfully' });
-    } catch (error) {
-      console.error('Error creating transaction:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  }
+//       if (stocks.length > 0) {
+//         let newQty = type === 'BUY'
+//           ? stocks[0].quantity + quantity
+//           : stocks[0].quantity - quantity;
 
-  async updateTransaction(req, res) {
-    const { id } = req.params;
-    const { ticker_symbol, type, quantity, price } = req.body;
-    try {
-      const [result] = await this.db.query(
-        'UPDATE transactions SET ticker_symbol = ?, type = ?, quantity = ?, price = ? WHERE id = ?',
-        [ticker_symbol, type, quantity, price, id]
-      );
-      if (result.affectedRows === 0) {
-        return res.status(404).json({ error: 'Transaction not found' });
-      }
-      res.json({ message: 'Transaction updated successfully' });
-    } catch (error) {
-      console.error('Error updating transaction:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  }
+//         await this.db.query('UPDATE stocks SET quantity = ?, buy_price = ? WHERE ticker_symbol = ?', [newQty, price, ticker_symbol]);
+//       } else if (type === 'BUY') {
+//         await this.db.query('INSERT INTO stocks (ticker_symbol, company_name, quantity, buy_price) VALUES (?, ?, ?, ?)', [
+//           ticker_symbol,
+//           `${ticker_symbol} Inc.`,
+//           quantity,
+//           price
+//         ]);
+//       }
 
-  async deleteTransaction(req, res) {
-    const { id } = req.params;
-    try {
-      const [result] = await this.db.query('DELETE FROM transactions WHERE id = ?', [id]);
-      if (result.affectedRows === 0) {
-        return res.status(404).json({ error: 'Transaction not found' });
-      }
-      res.json({ message: 'Transaction deleted successfully' });
-    } catch (error) {
-      console.error('Error deleting transaction:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  }
-}
+//       res.json({ message: 'Transaction created and stock updated successfully' });
+//     } catch (error) {
+//       console.error('Error creating transaction:', error);
+//       res.status(500).json({ error: 'Internal Server Error' });
+//     }
+//   }
 
-module.exports = new TransactionController();
+//   async updateTransaction(req, res) {
+//     const { id } = req.params;
+//     const { ticker_symbol, type, quantity, price } = req.body;
+//     try {
+//       const [result] = await this.db.query(
+//         'UPDATE transactions SET ticker_symbol = ?, type = ?, quantity = ?, price = ? WHERE id = ?',
+//         [ticker_symbol, type, quantity, price, id]
+//       );
+//       if (result.affectedRows === 0) {
+//         return res.status(404).json({ error: 'Transaction not found' });
+//       }
+//       res.json({ message: 'Transaction updated successfully' });
+//     } catch (error) {
+//       console.error('Error updating transaction:', error);
+//       res.status(500).json({ error: 'Internal Server Error' });
+//     }
+//   }
+
+//   async deleteTransaction(req, res) {
+//     const { id } = req.params;
+//     try {
+//       const [result] = await this.db.query('DELETE FROM transactions WHERE id = ?', [id]);
+//       if (result.affectedRows === 0) {
+//         return res.status(404).json({ error: 'Transaction not found' });
+//       }
+//       res.json({ message: 'Transaction deleted successfully' });
+//     } catch (error) {
+//       console.error('Error deleting transaction:', error);
+//       res.status(500).json({ error: 'Internal Server Error' });
+//     }
+//   }
+// }
+
+// module.exports = new TransactionController();
+// >>>>>>> master
