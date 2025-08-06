@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Snag a Stock 💘</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="buy.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">💸 Snag Stocks</div>
+    <div>
+      <a href="LandingPage.html">Home</a>
+      <a href="analysis.html">Analysis</a>
+      <button id="theme-toggle">🌙</button>
+    </div>
+  </nav>
+
+  <main class="buy-container">
+    <h1>Time to Snag</h1>
+    <div id="stockName">📈 Stock Transaction</div>
+    <form id="transaction-form">
+      <label for="symbol">🎯 Choose Symbol:</label>
+      <input list="symbols" id="symbol" name="symbol" required />
+      <datalist id="symbols">
+        <option value="AAPL">Apple</option>
+        <option value="GOOGL">Alphabet</option>
+        <option value="MSFT">Microsoft</option>
+        <option value="AMZN">Amazon</option>
+        <option value="TSLA">Tesla</option>
+        <option value="META">Meta</option>
+        <option value="NVDA">NVIDIA</option>
+        <option value="NFLX">Netflix</option>
+        <option value="INTC">Intel</option>
+        <option value="BABA">Alibaba</option>
+        <option value="AMD">AMD</option>
+        <option value="ORCL">Oracle</option>
+        <option value="UBER">Uber</option>
+        <option value="LYFT">Lyft</option>
+        <option value="PYPL">PayPal</option>
+        <option value="CRM">Salesforce</option>
+        <option value="DIS">Disney</option>
+        <option value="PEP">PepsiCo</option>
+        <option value="KO">Coca-Cola</option>
+        <option value="V">Visa</option>
+        <option value="MA">Mastercard</option>
+        <option value="NKE">Nike</option>
+        <option value="SBUX">Starbucks</option>
+        <option value="COST">Costco</option>
+        <option value="WMT">Walmart</option>
+      </datalist>
+
+      <label for="type">🔁 Type:</label>
+      <select id="type" required>
+        <option value="BUY">BUY</option>
+        <option value="SELL">SELL</option>
+      </select>
+
+      <label for="quantity">🧮 Quantity:</label>
+      <input type="number" id="quantity" required min="1" />
+
+      <label for="price">💲 Price per Unit:</label>
+      <input type="number" id="price" required step="0.01" min="0" />
+
+      <button type="submit">Snag Now 💸</button>
+    </form>
+  </main>
+
+  <div id="rocket">🚀</div>
+  <script src="buy.js"></script>
+</body>
+</html>
