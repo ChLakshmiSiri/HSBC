@@ -1,20 +1,19 @@
-body {
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    background-color: #1a1a2e;
-    color: #fff;
-    margin: 0;
-    padding: 0;
+/*body {
+  font-family: 'Fredoka', sans-serif;
+  background-color: #10121b;
+  color: #f0f0f0;
+  margin: 0;
+  padding: 0;
   }
   
   header {
-    background-color: #ff3cac;
-    background-image: linear-gradient(225deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
-    padding: 0.5rem 1rem;
-    text-align: center;
-    font-size: 1.4rem;
-    color: #fff;
-    box-shadow: 0 4px 8px rgba(255, 0, 255, 0.3);
-    line-height: 1.2;
+    background: linear-gradient(135deg, #2c2f54, #5941a9);
+  padding: 0.5rem 1rem;
+  text-align: center;
+  font-size: 1.4rem;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(103, 90, 255, 0.3);
+  line-height: 1.2;
   }
   
   
@@ -23,15 +22,16 @@ body {
     justify-content: space-between;
     padding: 20px;
     gap: 20px;
+    flex-wrap: wrap;
   }
   
-  /* Left Panel: Top Stocks */
+  
   .top-stocks {
     flex: 1;
-    background: #292f4a;
-    border-radius: 20px;
-    padding: 15px;
-    box-shadow: 0 0 10px #ff69b4;
+  background: #1c1e30;
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: 0 0 10px #7d6bff;
   }
   
   .tabs {
@@ -41,7 +41,176 @@ body {
   }
   
   .tab {
-    background: #ff85a2;
+    background: #715aff;
+  border: none;
+  color: #fff;
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+  }
+  
+  .tab:hover,
+  .tab.active {
+    background: #5d3bff;
+  }
+  
+  .tab-content {
+    margin-top: 20px;
+  }
+  
+  .tab-pane {
+    display: none;
+  }
+  
+  .tab-pane.active {
+    display: block;
+  }
+  
+
+  .stock-cards {
+    flex: 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+  .card {
+    background-color: #2b2d42;
+  padding: 30px;
+  text-align: center;
+  font-size: 1.2rem;
+  border-radius: 20px;
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(144, 120, 255, 0.3);
+  cursor: pointer;
+  transition: transform 0.3s, background 0.3s;
+  }
+  .card:hover {
+    transform: scale(1.05);
+    background-color: #403e75;
+  }
+  .card-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+  }
+  
+  
+  
+  
+  .user-profile {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #1a1a1a;
+    padding: 1rem;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 0 10px #8f6eff;
+  }
+  
+
+  
+  footer {
+    position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 8px 0;
+  background-color: #13131a;
+  color: #999;
+  font-size: 0.85rem;
+  font-weight: 300;
+  font-family: 'Segoe UI', sans-serif;
+  z-index: 1000;
+  }
+  .copyright {
+    text-align: center;
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    font-size: 14px;
+    color: #555; 
+  }
+  
+ 
+  
+  .main-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .user-profile img {
+    width: 160px;
+    height: 210px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 4px solid #dabfff;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 12px #8f6eff;
+  }
+  
+  .user-profile h2 {
+    margin: 0.3rem 0 0.2rem 0;
+    font-size: 1.2rem;
+  }
+  
+  .user-profile p {
+    margin: 0;
+    font-size: 1rem;
+  } */
+  
+  body {
+    font-family: 'Fredoka', sans-serif;
+    background-color: #10121b;
+    color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background: linear-gradient(135deg, #2c2f54, #5941a9);
+    padding: 0.5rem 1rem;
+    text-align: center;
+    font-size: 1.4rem;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(103, 90, 255, 0.3);
+    line-height: 1.2;
+  }
+  
+  .main-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  /* Left Panel */
+  .top-stocks {
+    flex: 1;
+    background: #1c1e30;
+    border-radius: 20px;
+    padding: 15px;
+    box-shadow: 0 0 10px #7d6bff;
+  }
+  
+  .tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .tab {
+    background: #715aff;
     border: none;
     color: #fff;
     padding: 10px;
@@ -52,7 +221,7 @@ body {
   
   .tab:hover,
   .tab.active {
-    background: #ff4f7a;
+    background: #5d3bff;
   }
   
   .tab-content {
@@ -76,29 +245,23 @@ body {
   }
   
   .card {
-    background-color: #ff00cc;
+    background-color: #2b2d42;
     padding: 30px;
     text-align: center;
     font-size: 1.2rem;
     border-radius: 20px;
-    box-shadow: 0 5px 15px rgba(255, 192, 203, 0.5);
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(144, 120, 255, 0.3);
     cursor: pointer;
-    transition: transform 0.3s;
+    transition: transform 0.3s, background 0.3s;
   }
-  .card-link {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 1rem;
-  }
-  
   
   .card:hover {
     transform: scale(1.05);
+    background-color: #403e75;
   }
   
+  /* Right Panel: Profile */
   .user-profile {
     flex: 1;
     display: flex;
@@ -108,41 +271,7 @@ body {
     padding: 1rem;
     border-radius: 1rem;
     text-align: center;
-    box-shadow: 0 0 10px #ff69b4;
-  }
-  
-
-  
-  footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    padding: 8px 0;
-    background-color: #ffe6f2; /* soft pink */
-    color: #a6a6a6; /* light grey text */
-    font-size: 0.85rem;
-    font-weight: 300; /* light */
-    font-family: 'Segoe UI', sans-serif;
-    z-index: 1000;
-  }
-  .copyright {
-    text-align: center;
-    position: absolute;
-    bottom: 10px;
-    width: 100%;
-    font-size: 14px;
-    color: #555; /* Darker grey */
-  }
-  
- 
-  
-  .main-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 2rem;
-    padding: 2rem;
-    flex-wrap: wrap;
+    box-shadow: 0 0 10px #8f6eff;
   }
   
   .user-profile img {
@@ -150,9 +279,9 @@ body {
     height: 210px;
     object-fit: cover;
     border-radius: 12px;
-    border: 4px solid #ffadeb;
+    border: 4px solid #dabfff;
     margin-bottom: 1rem;
-    box-shadow: 0 0 12px #ff69b4;
+    box-shadow: 0 0 12px #8f6eff;
   }
   
   .user-profile h2 {
@@ -165,4 +294,18 @@ body {
     font-size: 1rem;
   }
   
+  /* Footer */
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 8px 0;
+    background-color: #13131a;
+    color: #999;
+    font-size: 0.85rem;
+    font-weight: 300;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 1000;
+  }
   
