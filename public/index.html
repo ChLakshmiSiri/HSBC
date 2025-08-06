@@ -6,6 +6,84 @@
   <title>Stock Portfolio Manager</title>
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #ffffff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar a {
+      text-decoration: none;
+      margin-right: 1rem;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .navbar a:first-child {
+      color: #0f5132;
+      background-color: #d1e7dd;
+    }
+
+    .navbar a:first-child:hover {
+      background-color: #bcd0c7;
+    }
+
+    .navbar a:nth-child(2) {
+      color: #842029;
+      background-color: #f8d7da;
+    }
+
+    .navbar a:nth-child(2):hover {
+      background-color: #e9bfc3;
+    }
+
+    #theme-toggle {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .dashboard {
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+
+    /* Optional dark mode (connect to button later) */
+    body.dark-mode {
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+
+    body.dark-mode .navbar {
+      background-color: #1f1f1f;
+    }
+
+    body.dark-mode .navbar a:first-child {
+      background-color: #204e3a;
+      color: #c6f6d5;
+    }
+
+    body.dark-mode .navbar a:nth-child(2) {
+      background-color: #5e2a2a;
+      color: #f8d7da;
+    }
+  </style>
 </head>
 <body>
   <header class="navbar">
@@ -15,9 +93,18 @@
     </div>
     <button id="theme-toggle">🌙</button>
   </header>
+
   <main class="dashboard">
     <h1>Welcome to Stock Portfolio Manager</h1>
     <p style="text-align: center;">Use the navigation to explore your portfolio.</p>
   </main>
+
+  <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      toggleBtn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    });
+  </script>
 </body>
 </html>

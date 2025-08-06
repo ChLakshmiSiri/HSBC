@@ -5,12 +5,80 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Buy/Sell Stocks</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      transition: background 0.5s ease;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #222;
+      color: #fff;
+    }
+
+    .nav-links a {
+      color: #fff;
+      margin-left: 1rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .centered-form {
+      max-width: 500px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background: #f4f4f4;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin: 1rem 0 0.5rem;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+
+    #rocket {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      font-size: 2rem;
+      opacity: 0;
+      transition: transform 1s ease, opacity 1s ease;
+      z-index: 999;
+    }
+  </style>
 </head>
 <body>
   <nav>
     <h1>Buy/Sell Page</h1>
     <div class="nav-links">
-      <a href="index.html">Home</a>
+      <a href="LandingPage.html">Home</a>
       <a href="analysis.html">Analysis</a>
       <button id="theme-toggle">🌙</button>
     </div>
@@ -65,6 +133,8 @@
     </form>
   </main>
 
+  <div id="rocket">🚀</div>
+
   <script src="script.js"></script>
 </body>
-<!-- </html>
+</html>

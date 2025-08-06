@@ -49,7 +49,7 @@ connectToDatabase()
     console.log('Connected to the database successfully');
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
-      console.log(`Frontend available at http://localhost:${PORT}/index.html`);
+      console.log(`Frontend available at http://localhost:${PORT}/LandingPage.html`);
     });
   })
   .catch((error) => {
