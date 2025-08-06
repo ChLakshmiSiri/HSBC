@@ -1,57 +1,21 @@
-// const express = require('express');
-// const { connectToDatabase } = require('./config/database');
-// const setRoutes = require('./routes/stockRoutes');
-// const setTransactionRoutes = require('./routes/transactionRoutes');
-
-// const app = express();
-// const PORT = process.env.PORT || 3000;
-// app.use(express.json());
-//setRoutes(app);
-//     setTransactionRoutes(app);
-//     app.listen(PORT, () => {
-//       console.log(`Server is running on port ${PORT}`);
-//     });
-
-// // connectToDatabase()
-// //   .then(() => {
-// //     console.log('Connected to the database successfully');
-// //     setRoutes(app);
-// //     setTransactionRoutes(app);
-// //     app.listen(PORT, () => {
-// //       console.log(`Server is running on port ${PORT}`);
-// //     });
-// //   })
-// //   .catch((error) => {
-// //     console.error('Error connecting to the database:', error);
-// //   });
-const express = require('express');
-const path = require('path');
-const { connectToDatabase } = require('./config/database');
-const setStockRoutes = require('./routes/stockRoutes');
-const setTransactionRoutes = require('./routes/transactionRoutes');
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3019;
-
-// Middleware to parse JSON requests
+app.use(cors());
 app.use(express.json());
 
-// Serve static files from 'public' directory
-app.use(express.static(path.join(__dirname, '..', 'public')));
+const stockRoutes = require("./routes/stockRoutes");
+const transactionRoutes = require("./routes/transactionRoutes");
 
-// API routes
-setStockRoutes(app);
-setTransactionRoutes(app);
+const buyRoutes = require("./routes/buyRoutes");
 
-// Connect to database and start server
-connectToDatabase()
-  .then(() => {
-    console.log('Connected to the database successfully');
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-      console.log(`Frontend available at http://localhost:${PORT}/index.html`);
-    });
-  })
-  .catch((error) => {
-    console.error('Error connecting to the database:', error);
-  });
+app.use("/api/stocks", stockRoutes);
+app.use("/api/transactions", transactionRoutes);
+
+app.use("/api", buyRoutes);
+
+module.exports = app;
+
