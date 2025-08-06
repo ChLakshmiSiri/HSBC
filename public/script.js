@@ -1,65 +1,39 @@
-// Fetch stock symbols for dropdown
-async function fetchStockSymbols() {
-    const res = await fetch('/api/stocks');
-    const data = await res.json();
-    const select = document.getElementById('ticker_symbol');
-    data.forEach(stock => {
-      const option = document.createElement('option');
-      option.value = stock.ticker_symbol;
-      option.textContent = `${stock.ticker_symbol} - ${stock.company_name}`;
-      select.appendChild(option);
-    });
-  }
+document.addEventListener("DOMContentLoaded", () => {
+    const toggle = document.getElementById("theme-toggle");
+    if (toggle) {
+      toggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-theme");
+      });
+    }
   
-  // Fetch transactions for table
-  async function fetchTransactions() {
-    const res = await fetch('/api/transactions');
-    const data = await res.json();
-    const tbody = document.querySelector('#transactionsTable tbody');
-    tbody.innerHTML = '';
-    data.forEach(tx => {
-      const row = `<tr>
-        <td>${tx.id}</td>
-        <td>${tx.ticker_symbol}</td>
-        <td>${tx.type}</td>
-        <td>${tx.quantity}</td>
-        <td>${tx.price}</td>
-        <td>${new Date(tx.timestamp).toLocaleString()}</td>
-      </tr>`;
-      tbody.innerHTML += row;
-    });
-  }
+    const form = document.getElementById("transaction-form");
+    if (form) form.addEventListener("submit", handleSubmit);
+  });
   
-  // Submit form
-  document.getElementById('transactionForm').addEventListener('submit', async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    const payload = {
-      ticker_symbol: document.getElementById('ticker_symbol').value,
-      type: document.getElementById('type').value,
-      quantity: parseInt(document.getElementById('quantity').value),
-      price: parseFloat(document.getElementById('price').value)
-    };
+    const symbol = document.getElementById("symbol").value.trim().toUpperCase();
+    const type = document.getElementById("type").value;
+    const quantity = parseFloat(document.getElementById("quantity").value);
+    const price = parseFloat(document.getElementById("price").value);
   
-    const res = await fetch('/api/transactions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    if (!symbol || isNaN(quantity) || isNaN(price)) {
+      return alert("Please enter all fields correctly.");
+    }
+  
+    const payload = { ticker_symbol: symbol, type, quantity, price };
+    const res = await fetch("/api/transactions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
   
     if (res.ok) {
-      await fetchTransactions();
-      e.target.reset();
+      alert("✅ Transaction successful!");
+      window.location = "analysis.html"; // Navigate to transactions/analysis
+    } else {
+      const error = await res.json();
+      alert("❌ Error: " + (error.error || error.message));
     }
-  });
-  
-  // Live timestamp
-  function updateTime() {
-    document.getElementById('updatedTime').textContent = 'Updated: ' + new Date().toLocaleTimeString();
   }
-  setInterval(updateTime, 1000);
-  
-  // Init
-  fetchStockSymbols();
-  fetchTransactions();
-  updateTime();
   
