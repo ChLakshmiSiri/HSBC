@@ -34,6 +34,7 @@ const app = express();
 const PORT = process.env.PORT || 3019;
 
 // Middleware to parse JSON requests
+//app.use(required('express-status-monitor')());
 app.use(express.json());
 
 // Serve static files from 'public' directory

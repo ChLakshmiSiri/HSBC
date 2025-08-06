@@ -125,6 +125,36 @@ class StockController {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   }
+
+  // ✅ NEW: Get transactions with optional filters
+  async getTransactions(req, res) {
+    const { type, symbol, date } = req.query;
+    let query = 'SELECT * FROM transactions WHERE 1=1';
+    const params = [];
+
+    if (type) {
+      query += ' AND type = ?';
+      params.push(type.toUpperCase());
+    }
+
+    if (symbol) {
+      query += ' AND ticker_symbol = ?';
+      params.push(symbol.toUpperCase());
+    }
+
+    if (date) {
+      query += ' AND DATE(timestamp) = ?';
+      params.push(date);
+    }
+
+    try {
+      const [rows] = await this.db.execute(query, params);
+      res.json(rows);
+    } catch (error) {
+      console.error('Error fetching transactions:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
 }
 
 module.exports = new StockController();

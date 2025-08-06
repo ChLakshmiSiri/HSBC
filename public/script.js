@@ -12,28 +12,43 @@ document.addEventListener("DOMContentLoaded", () => {
   
   async function handleSubmit(e) {
     e.preventDefault();
-    const symbol = document.getElementById("symbol").value.trim().toUpperCase();
+  
+    const symbolInput = document.getElementById("symbol");
+    const symbol = symbolInput.value.trim().toUpperCase();
     const type = document.getElementById("type").value;
     const quantity = parseFloat(document.getElementById("quantity").value);
     const price = parseFloat(document.getElementById("price").value);
+  
+    // Validate against datalist options
+    const datalistOptions = document.querySelectorAll("#symbols option");
+    const validSymbols = Array.from(datalistOptions).map(option => option.value.toUpperCase());
+    const isValidSymbol = validSymbols.includes(symbol);
+  
+    if (!isValidSymbol) {
+      return alert("❌ Stock does not exist. Please choose a valid stock symbol from the list.");
+    }
   
     if (!symbol || isNaN(quantity) || isNaN(price)) {
       return alert("Please enter all fields correctly.");
     }
   
     const payload = { ticker_symbol: symbol, type, quantity, price };
-    const res = await fetch("/api/transactions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
+    try {
+      const res = await fetch("/api/transactions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
   
-    if (res.ok) {
-      alert("✅ Transaction successful!");
-      window.location = "analysis.html"; // Navigate to transactions/analysis
-    } else {
-      const error = await res.json();
-      alert("❌ Error: " + (error.error || error.message));
+      if (res.ok) {
+        alert("✅ Transaction successful!");
+        window.location = "analysis.html";
+      } else {
+        const error = await res.json();
+        alert("❌ Error: " + (error.error || error.message));
+      }
+    } catch (err) {
+      alert("❌ Network error: " + err.message);
     }
   }
   

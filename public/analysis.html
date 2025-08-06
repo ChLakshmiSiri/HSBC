@@ -2,31 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Analysis - Stock Portfolio</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="astyles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+  <!-- Navbar -->
   <header class="navbar">
-    <div>
-      <a href="main.html">Buy/Sell</a>
-      <a href="analysis.html">Analysis</a>
+    <button id="theme-toggle" title="Toggle theme">🌙</button>
+    <div class="navbar-right">
+        <a href="LandingPage.html" class="nav-link active">Home</a>
+      <a href="main.html" class="nav-link">Buy/Sell</a>
+      <a href="analysis.html" class="nav-link active">Analysis</a>
     </div>
-    <button id="theme-toggle">🌙</button>
   </header>
-  <main class="dashboard">
+
+  <!-- Main Content -->
+  <main class="container">
     <h1>Portfolio Analysis</h1>
-    <section class="chart-section">
+
+    <!-- Portfolio Value + Chart -->
+    <section class="card">
       <h2>Total Portfolio Value: $<span id="portfolio-value">0</span></h2>
-      <canvas id="allocationChart" width="400" height="200"></canvas>
+      <canvas id="allocationChart" class="small-chart"></canvas>
+
     </section>
 
-    <section class="activity-feed">
-      <h2>Recent Activity</h2>
-      <ul id="recent-activity"></ul>
+    <!-- Filter Transactions -->
+    <section class="card filter-section">
+      <h2>Filter Transactions</h2>
+      <form id="filter-form">
+        <label>
+          Type:
+          <select id="filter-type">
+            <option value="">All</option>
+            <option value="BUY">BUY</option>
+            <option value="SELL">SELL</option>
+          </select>
+        </label>
+
+        <label>
+          Symbol:
+          <input type="text" id="filter-symbol" placeholder="e.g. AAPL" />
+        </label>
+
+        <label>
+          Date:
+          <input type="date" id="filter-date" />
+        </label>
+
+        <button type="submit">Apply</button>
+        <button type="button" id="clear-filters">Clear</button>
+      </form>
+    </section>
+
+    <!-- Transaction History -->
+    <section class="card">
+      <h2>Transaction History</h2>
+      <div class="table-wrapper">
+        <table id="transaction-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Symbol</th>
+              <th>Type</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="transaction-body">
+            <!-- Rows populated dynamically -->
+          </tbody>
+        </table>
+      </div>
     </section>
   </main>
-  <script src="script.js"></script>
+
+  <script src="ascripts.js"></script>
 </body>
 </html>
