@@ -219,3 +219,23 @@ body {
     width: 0px;
   }
   
+  #homeButton {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #ffd6e0;
+    color: #ff1493;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+  }
+  
+  #homeButton:hover {
+    transform: scale(1.1) rotate(-5deg);
+    background-color: #ffc1e3;
+    box-shadow: 0 0 10px #ff69b4;
+  }

@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     earnedEl.textContent = `$${summary.totalEarned}`;
 
     const profitLoss = summary.totalEarned - summary.totalSpent;
-    statusEl.textContent = profitLoss >= 0 ? `Profit 💚 +$${profitLoss}` : `Loss -$${Math.abs(profitLoss)}`;
+    statusEl.textContent = profitLoss >= 0 ? `Profit +$${profitLoss}` : `Loss -$${Math.abs(profitLoss)}`;
     statusEl.style.color = profitLoss >= 0 ? "green" : "red";
   } catch (err) {
     console.error("Fetch error:", err);
@@ -47,15 +47,28 @@ document.addEventListener("DOMContentLoaded", async () => {
   const priceInput = document.getElementById('sellPrice');
   const totalDisplay = document.getElementById('sellTotalDisplay');
 
+  // qtyInput.addEventListener('input', () => {
+  //   const qty = parseInt(qtyInput.value);
+  //   const unitPrice = parseFloat(priceInput.dataset.unitPrice);
+  //   if (!isNaN(qty) && !isNaN(unitPrice)) {
+  //     const total = qty * unitPrice;
+  //     priceInput.value = total.toFixed(2);
+  //     totalDisplay.textContent = `Total: $${total.toFixed(2)}`;
+  //   }
+  // });
+
+  //deletion of stocks
   qtyInput.addEventListener('input', () => {
     const qty = parseInt(qtyInput.value);
     const unitPrice = parseFloat(priceInput.dataset.unitPrice);
+  
     if (!isNaN(qty) && !isNaN(unitPrice)) {
       const total = qty * unitPrice;
-      priceInput.value = total.toFixed(2);
+      // Only display total separately, don’t update price input
       totalDisplay.textContent = `Total: $${total.toFixed(2)}`;
     }
   });
+  
 });
 
 // 💸 Open Modal
@@ -78,13 +91,67 @@ function closeSellModal() {
   document.getElementById('sellModal').style.display = 'none';
 }
 
+
+function removeStockRowIfEmpty(ticker, soldQty) {
+  const rows = document.querySelectorAll("#stocksBody tr");
+  for (const row of rows) {
+    const symbol = row.children[0].textContent;
+    if (symbol === ticker) {
+      const currentQty = parseInt(row.children[2].textContent);
+      if (currentQty - soldQty <= 0) {
+        row.remove(); // remove row if quantity is now zero
+      } else {
+        // update quantity and maybe other values if needed
+        row.children[2].textContent = currentQty - soldQty;
+      }
+      break;
+    }
+  }
+}
+
+
+
 // ✅ Submit Sell
+// document.getElementById('sellForm').addEventListener('submit', async (e) => {
+//   e.preventDefault();
+
+//   const ticker = document.getElementById('sellTicker').value;
+//   const quantity = parseInt(document.getElementById('sellQty').value);
+//   const price = parseFloat(document.getElementById('sellPrice').value);
+
+//   const res = await fetch('http://localhost:3000/api/transactions/sell', {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({ ticker_symbol: ticker, quantity, price }),
+//   });
+
+//   if (res.ok) {
+//     alert('✨ Stock sold successfully!');
+//     closeSellModal();
+//     location.reload();
+//   } else {
+//     alert('Oops! Something went wrong while selling!');
+//   }
+// });
+
+
+
+//deletion of stocks
+
 document.getElementById('sellForm').addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const ticker = document.getElementById('sellTicker').value;
-  const quantity = parseInt(document.getElementById('sellQty').value);
-  const price = parseFloat(document.getElementById('sellPrice').value);
+  const qtyInput = document.getElementById('sellQty');
+  const priceInput = document.getElementById('sellPrice');
+
+  const quantity = Number(qtyInput.value);
+  const price = Number(priceInput.value);
+
+  if (isNaN(quantity) || quantity <= 0) {
+    showToast('Quantity must be a positive number!', 'error');
+    return;
+  }
 
   const res = await fetch('http://localhost:3000/api/transactions/sell', {
     method: 'POST',
@@ -93,10 +160,35 @@ document.getElementById('sellForm').addEventListener('submit', async (e) => {
   });
 
   if (res.ok) {
-    alert('✨ Stock sold successfully!');
+    showToast('✨ Stock sold successfully!', 'success');
     closeSellModal();
-    location.reload();
+    removeStockRowIfEmpty(ticker, quantity);
+    setTimeout(() => location.reload(), 1500);
   } else {
-    alert('Oops! Something went wrong while selling!');
+    const errMsg = await res.text();
+    showToast(`Oops! Something went wrong while selling!\n${errMsg}`, 'error');
   }
 });
+
+
+const homeButton = document.getElementById("homeButton");
+    homeButton.addEventListener("click", () => {
+      window.location.href = "landing_page.html";
+});
+
+// Toast function ✨
+function showToast(message, type) {
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerText = message;
+  document.body.appendChild(toast);
+
+  // Animate and remove
+  setTimeout(() => {
+    toast.classList.add('show');
+  }, 100);
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
