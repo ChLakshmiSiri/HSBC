@@ -1,50 +1,3 @@
-
-// GENZ STYLE
-
-// Chart Setup
-// const years = ["2019", "2020", "2021", "2022", "2023", "2024"];
-// const priceData = [160, 185, 140, 200, 220, 210];
-
-// const ctx = document.getElementById("stockHistoryChart").getContext("2d");
-
-// new Chart(ctx, {
-//   type: "line",
-//   data: {
-//     labels: years,
-//     datasets: [{
-//       label: "AAPL Over the Years 💹",
-//       data: priceData,
-//       borderColor: "#ff6fd8",
-//       backgroundColor: "rgba(255, 111, 216, 0.1)",
-//       borderWidth: 3,
-//       tension: 0.3,
-//       pointRadius: 6,
-//       pointBackgroundColor: "#ff6fd8",
-//     }]
-//   },
-//   options: {
-//     scales: {
-//       x: { ticks: { color: '#666' } },
-//       y: { ticks: { color: '#666' } }
-//     },
-//     plugins: {
-//       legend: {
-//         labels: { color: '#666' }
-//       }
-//     }
-//   }
-// });
-
-// // Handle form
-// document.getElementById("buyForm").addEventListener("submit", function (e) {
-//   e.preventDefault();
-//   alert("Your order has been placed! 🎉✨");
-// });
-
-
-
-// GENZ STYLE - BACKEND INTEGRATION
-
 console.log("buy.js loaded ✅");
 
 window.onload = function () {
@@ -52,19 +5,24 @@ window.onload = function () {
   const stockNameDiv = document.getElementById('stockName');
 
   if (stockInfo) {
-    stockNameDiv.textContent = `You're snagging: ${stockInfo.symbol} at $${stockInfo.price}`;
+    stockNameDiv.textContent = `You're snagging: ${stockInfo.symbol} at ₹${stockInfo.price}`;
   } else {
-    stockNameDiv.textContent = "No stock selected. Go back and pick one!";
+    stockNameDiv.textContent = "No stock selected. Go back and pick one! 😢";
   }
 };
 
 document.addEventListener("DOMContentLoaded", () => {
   const stockData = JSON.parse(localStorage.getItem('selectedStock'));
+
   if (stockData) {
-    document.getElementById('stockSymbol').value = stockData.symbol;
-    document.getElementById('stockPrice').value = stockData.price;
+    document.getElementById('ticker_symbol').value = stockData.symbol;
+    document.getElementById('buy_price').value = stockData.price;
     document.getElementById('stockHeading').textContent = `📦 Buying ${stockData.symbol}`;
-    document.getElementById('companyName').value = stockData.company; // if passed
+    // company name is optional; only set if field exists in HTML
+    const companyInput = document.getElementById('companyName');
+    if (companyInput) {
+      companyInput.value = stockData.company || "";
+    }
   }
 
   const form = document.getElementById("buyForm");
@@ -72,10 +30,10 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
 
     const payload = {
-      ticker_symbol: document.getElementById("stockSymbol").value,
-      company_name: document.getElementById("companyName").value || null,
-      buy_price: parseFloat(document.getElementById("stockPrice").value),
-      current_price: parseFloat(document.getElementById("stockPrice").value),
+      ticker_symbol: document.getElementById("ticker_symbol").value,
+      company_name: document.getElementById("companyName")?.value || null,
+      buy_price: parseFloat(document.getElementById("buy_price").value),
+      current_price: parseFloat(document.getElementById("buy_price").value),
       quantity: parseInt(document.getElementById("quantity").value),
       notes: document.getElementById("notes").value || ""
     };
@@ -102,3 +60,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
