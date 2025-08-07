@@ -1,0 +1,257 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buy AAPL Stock</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      background-color: #0e0e0e;
+      color: #f0f0f0;
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #ffffff;
+    }
+    .chart-container {
+      width: 100%;
+      max-width: 800px;
+      margin: auto;
+      margin-bottom: 3rem;
+    }
+    .form-container {
+      background-color: #1a1a1a;
+      padding: 2rem;
+      border-radius: 8px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+    }
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #ccc;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.7rem;
+      border: none;
+      border-radius: 5px;
+      background-color: #2b2b2b;
+      color: #fff;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <h1>Buy AAPL Stock</h1>
+
+  <div class="chart-container">
+    <canvas id="stockHistoryChart"></canvas>
+  </div>
+
+  <div class="form-container">
+    <h2>Purchase Details</h2>
+    <form id="buyForm">
+      <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" name="quantity" min="1" required />
+      </div>
+
+      <div class="form-group">
+        <label for="buy_price">Buy Price (USD)</label>
+        <input type="number" id="buy_price" name="buy_price" step="0.01" required />
+      </div>
+
+      <div class="form-group">
+        <label for="order_type">Order Type</label>
+        <select id="order_type" name="order_type">
+          <option value="market">Market</option>
+          <option value="limit">Limit</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="time_in_force">Time in Force</label>
+        <select id="time_in_force" name="time_in_force">
+          <option value="day">Day</option>
+          <option value="gtc">Good Till Cancelled (GTC)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="notes">Notes (optional)</label>
+        <textarea id="notes" name="notes" rows="3"></textarea>
+      </div>
+
+      <button type="submit">Place Order</button>
+    </form>
+  </div>
+
+  <script>
+    // Simulate price data for line chart
+    const years = ["2019", "2020", "2021", "2022", "2023", "2024"];
+    const priceData = [160, 185, 140, 200, 220, 210];
+
+    const ctx = document.getElementById("stockHistoryChart").getContext("2d");
+    new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: years,
+        datasets: [{
+          label: "AAPL Price Over Years",
+          data: priceData,
+          borderColor: "#4CAF50",
+          backgroundColor: "rgba(76, 175, 80, 0.1)",
+          borderWidth: 2,
+          tension: 0.4,
+          pointRadius: 5,
+          pointBackgroundColor: "#4CAF50"
+        }]
+      },
+      options: {
+        scales: {
+          x: { ticks: { color: '#ccc' } },
+          y: { ticks: { color: '#ccc' } }
+        },
+        plugins: {
+          legend: { labels: { color: '#ccc' } }
+        }
+      }
+    });
+
+    // Example form submission
+    document.getElementById("buyForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Order Placed! This would normally be saved to your database.");
+      // Here you’d POST to your backend to update the `stocks` table
+    });
+  </script>
+</body>
+</html> -->
+
+
+
+
+ <!-- GENZ STYLE -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snag AAPL 🥝</title>
+  <link rel="stylesheet" href="buy.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Snag AAPL 🛍️</h1>
+
+    <div class="chart-container">
+      <canvas id="stockHistoryChart"></canvas>
+    </div>
+
+    <div class="form-container">
+      <h2>✨ Purchase Vibes ✨</h2>
+      <form id="buyForm">
+        <div class="form-group">
+          <label for="quantity">How many? 📦</label>
+          <input type="number" id="quantity" name="quantity" min="1" required />
+        </div>
+
+        <div class="form-group">
+          <label for="buy_price">Price per cutie 💸</label>
+          <input type="number" id="buy_price" name="buy_price" step="0.01" required />
+        </div>
+
+        <div class="form-group">
+          <label for="order_type">Pick an order 🎯</label>
+          <select id="order_type" name="order_type">
+            <option value="market">Market</option>
+            <option value="limit">Limit</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="time_in_force">Time vibes ⏳</label>
+          <select id="time_in_force" name="time_in_force">
+            <option value="day">Just Today</option>
+            <option value="gtc">Forever Until Snagged 😌</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="notes">Got thoughts? 💭</label>
+          <textarea id="notes" name="notes" rows="3" placeholder="Ugh AAPL is such a slay rn"></textarea>
+        </div>
+
+        <button type="submit" class="snag-button">Snag It 💖</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="buy.js"></script>
+</body>
+</html> -->
+
+
+
+<!-- GENZ STYLE WITH BACKEND -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Snag That Stock 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="buy.css">
+</head>
+<body>
+  <div class="buy-container">
+    <h2 id="stockHeading">📦 Buying Stock</h2>
+    <form id="buyForm">
+      <input type="text" id="stockSymbol" name="stockSymbol" readonly />
+      <input type="number" id="stockPrice" name="stockPrice" readonly />
+      
+      <label for="quantity">🧮 Quantity:</label>
+      <input type="number" name="quantity" id="quantity" required />
+
+      <label for="buyerName">👤 Your Name:</label>
+      <input type="text" name="buyerName" id="buyerName" required />
+
+      <button type="submit">Snag Now 💸</button>
+    </form>
+  </div>
+
+  <script src="buy.js"></script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Buy</title>
+</head>
+<body>
+  <h1>Hello from Buy Page</h1>
+</body>
+</html>
+

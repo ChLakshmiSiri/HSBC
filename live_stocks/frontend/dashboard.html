@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stock Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="background-logos">
+    <img src="logos/amazon.png" class="floating-logo" />
+    <img src="logos/google.png" class="floating-logo" />
+    <img src="logos/tcs.png" class="floating-logo" />
+    <img src="logos/apple.png" class="floating-logo" />
+    <img src="logos/meta.png" class="floating-logo" />
+  </div>
+
+  <div class="dashboard">
+    <div class="profile-card">
+      <div class="profile-img"></div>
+      <h2>Smreets</h2>
+      <p>Total Invested: ₹1,20,000</p>
+      <p>Current Value: ₹1,45,000</p>
+      <p>Overall Gain: ₹25,000</p>
+      <canvas id="holdingsChart" width="150" height="150"></canvas>
+    </div>
+
+    <div class="action-cards">
+      <div class="card" onclick="window.location.href='buy.html'">
+        <h3>📈 Buy Stocks</h3>
+      </div>
+      <div class="card" onclick="window.location.href='sell.html'">
+        <h3>📉 Sell Stocks</h3>
+      </div>
+      <div class="card" onclick="window.location.href='market.html'">
+        <h3>🌐 Market Overview</h3>
+      </div>
+      <div class="card" onclick="window.location.href='transactions.html'">
+        <h3>📅 Transactions</h3>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('holdingsChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['AAPL', 'GOOG', 'TSLA'],
+        datasets: [{
+          data: [40, 30, 30],
+          backgroundColor: ['#ff9999','#66b3ff','#99ff99']
+        }]
+      },
+      options: {
+        plugins: { legend: { labels: { color: 'white' } } }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pookie Portfolio</title>
+  <link rel="stylesheet" href="genz.css" />
+</head>
+<body>
+  <div class="sidebar">
+    <div class="profile">
+      <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Profile" class="profile-pic" />
+      <h2 class="username">Smreets 🧃</h2>
+      <div class="stats">
+        <p><strong>Total Holdings:</strong> ₹5,20,000</p>
+        <p><strong>Shares Owned:</strong> 134</p>
+        <p><strong>Gain/Loss:</strong> +₹23,000 💹</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="carousel">
+      <div class="card active">
+        <h2>Explore 📊</h2>
+        <button onclick="location.href='explore.html'">Go</button>
+      </div>
+      <div class="card">
+        <h2>Buy 🛒</h2>
+        <button onclick="location.href='buy.html'">Go</button>
+      </div>
+      <div class="card">
+        <h2>Sell 💸</h2>
+        <button onclick="location.href='sell.html'">Go</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.card');
+    let current = 0;
+
+    function updateCarousel() {
+      cards.forEach((card, index) => {
+        card.classList.remove('active', 'prev', 'next');
+        if (index === current) {
+          card.classList.add('active');
+        } else if (index === (current - 1 + cards.length) % cards.length) {
+          card.classList.add('prev');
+        } else if (index === (current + 1) % cards.length) {
+          card.classList.add('next');
+        }
+      });
+    }
+
+    cards.forEach((card, index) => {
+      card.addEventListener('click', () => {
+        current = index;
+        updateCarousel();
+      });
+    });
+
+    updateCarousel();
+  </script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!-- JUST THE CAROUSEL EFFECT -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Card Carousel</title>
+  <link rel="stylesheet" href="carousel.css" />
+</head>
+<body>
+  <div class="carousel-container">
+    <div class="carousel">
+      <div class="carousel-card" data-index="0">
+        📈 View Global Market
+        <button onclick="location.href='market.html'">Explore</button>
+      </div>
+      <div class="carousel-card" data-index="1">
+        🛒 Buy Stocks
+        <button onclick="location.href='buy.html'">Buy</button>
+      </div>
+      <div class="carousel-card" data-index="2">
+        💼 Sell Stocks
+        <button onclick="location.href='sell.html'">Sell</button>
+      </div>
+      <div class="carousel-card" data-index="3">
+        📂 Portfolio & History
+        <button onclick="location.href='portfolio.html'">View</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.carousel-card');
+    let current = 0;
+
+    function updateCarousel() {
+      cards.forEach((card, index) => {
+        card.classList.remove('active', 'left', 'right', 'hidden');
+
+        if (index === current) {
+          card.classList.add('active');
+        } else if (index === current - 1 || (current === 0 && index === cards.length - 1)) {
+          card.classList.add('left');
+        } else if (index === current + 1 || (current === cards.length - 1 && index === 0)) {
+          card.classList.add('right');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    cards.forEach((card, index) => {
+      card.addEventListener('click', () => {
+        if (index === current) return;
+        current = index;
+        updateCarousel();
+      });
+    });
+
+    updateCarousel();
+  </script>
+</body>
+</html> -->
+
+
+
+<!-- WITHOUT CAROUSEL EFFECT - CUTE  -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pookie Portfolio 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="carousel.css">
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="profile-pic">
+      <img src="https://www.svgrepo.com/show/382106/female-avatar-girl.svg" alt="Profile" />
+    </div>
+    <h2>smreets 🧁</h2>
+    <div class="profile-info">
+      <p><strong>Total Invested:</strong> ₹1,20,000</p>
+      <p><strong>Current Value:</strong> ₹1,42,350</p>
+      <p><strong>Gain/Loss:</strong> +₹22,350 📈</p>
+    </div>
+    <div class="mini-pie">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Pie_chart_with_legend.svg/512px-Pie_chart_with_legend.svg.png" alt="Holdings Pie">
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="floating-logos">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Tata_Consultancy_Services_Logo.svg" />
+    </div>
+
+    <div class="carousel">
+      <div class="card active">
+        <h3>🔍 Explore</h3>
+        <p>Browse the global stock market in GenZ style 💅</p>
+        <button onclick="location.href='explore.html'">Let’s go 🌍</button>
+      </div>
+      <div class="card next">
+        <h3>🛍️ Buy</h3>
+        <p>Stack those gains, bestie 😤💸</p>
+        <button onclick="location.href='buy.html'">Buy now 💖</button>
+      </div>
+      <div class="card prev">
+        <h3>💰 Sell</h3>
+        <p>Secure the bag 💼✨</p>
+        <button onclick="location.href='sell.html'">Cash out 💵</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="carousel.js"></script>
+</body>
+</html>  -->
+
+
+<!-- WITH CAROUSEL EFFECT - LESS GIRLY -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pookie Portfolio 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="carousel.css">
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="profile-pic">
+      <img src="https://www.svgrepo.com/show/382106/female-avatar-girl.svg" alt="Profile" />
+    </div>
+    <h2>smreets 🧁</h2>
+    <div class="profile-info">
+      <p><strong>Total Invested:</strong> ₹1,20,000</p>
+      <p><strong>Current Value:</strong> ₹1,42,350</p>
+      <p><strong>Gain/Loss:</strong> +₹22,350 📈</p>
+    </div>
+    <div class="mini-pie">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Pie_chart_with_legend.svg/512px-Pie_chart_with_legend.svg.png" alt="Holdings Pie">
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="floating-logos">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Tata_Consultancy_Services_Logo.svg" />
+    </div>
+
+    <div class="carousel">
+      <div class="card active">
+        <h3>🔍 Explore</h3>
+        <p>Browse the global stock market in GenZ style 💅</p>
+        <button onclick="location.href='explore.html'">Let’s go 🌍</button>
+      </div>
+      <div class="card next">
+        <h3>🛍️ Buy</h3>
+        <p>Stack those gains, bestie 😤💸</p>
+        <button onclick="location.href='buy.html'">Buy now 💖</button>
+      </div>
+      <div class="card prev">
+        <h3>💰 Sell</h3>
+        <p>Secure the bag 💼✨</p>
+        <button onclick="location.href='sell.html'">Cash out 💵</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="carousel.js"></script>
+</body>
+</html>
