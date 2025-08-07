@@ -5,12 +5,80 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Buy/Sell Stocks</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      transition: background 0.5s ease;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #222;
+      color: #fff;
+    }
+
+    .nav-links a {
+      color: #fff;
+      margin-left: 1rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .centered-form {
+      max-width: 500px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background: #f4f4f4;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin: 1rem 0 0.5rem;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+
+    #rocket {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      font-size: 2rem;
+      opacity: 0;
+      transition: transform 1s ease, opacity 1s ease;
+      z-index: 999;
+    }
+  </style>
 </head>
 <body>
   <nav>
     <h1>Buy/Sell Page</h1>
     <div class="nav-links">
-      <a href="index.html">Home</a>
+      <a href="LandingPage.html">Home</a>
       <a href="analysis.html">Analysis</a>
       <button id="theme-toggle">🌙</button>
     </div>
@@ -19,7 +87,7 @@
   <main class="centered-form">
     <h2>Stock Transaction</h2>
     <form id="transaction-form">
-      <label for="symbol">Choose Symbol (or enter new):</label>
+      <label for="symbol">Choose Symbol:</label>
       <input list="symbols" id="symbol" name="symbol" required />
       <datalist id="symbols">
         <option value="AAPL">Apple</option>
@@ -65,79 +133,8 @@
     </form>
   </main>
 
-  <script src="script.js"></script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Buy / Sell Stocks</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <header class="navbar">
-    <div class="logo">My Portfolio</div>
-    <nav>
-      <a href="main.html" class="active">Buy / Sell</a>
-      <a href="analysis.html">Analysis</a>
-    </nav>
-    <button id="theme-toggle">🌙</button>
-  </header>
-
-  <section class="hero">
-    <h1>Buy / Sell Stocks</h1>
-    <p>Submit stock transactions quickly and efficiently.</p>
-  </section>
-
-  <main class="form-container">
-    <form id="transaction-form">
-      <label for="symbol">Symbol (or type new):</label>
-      <input list="symbols" id="symbol" name="symbol" placeholder="e.g. AAPL or TSLA" required />
-      <datalist id="symbols">
-        <option value="AAPL">Apple Inc.</option>
-        <option value="GOOGL">Alphabet Inc.</option>
-        <option value="MSFT">Microsoft Corp.</option>
-        <option value="AMZN">Amazon.com Inc.</option>
-        <option value="TSLA">Tesla Inc.</option>
-        <option value="META">Meta Platforms</option>
-        <option value="NVDA">NVIDIA Corp.</option>
-        <option value="NFLX">Netflix Inc.</option>
-        <option value="INTC">Intel Corp.</option>
-        <option value="BABA">Alibaba Group</option>
-        <option value="AMD">AMD</option>
-        <option value="ORCL">Oracle Corp.</option>
-        <option value="UBER">Uber Technologies</option>
-        <option value="PYPL">PayPal Holdings</option>
-        <option value="CRM">Salesforce</option>
-        <option value="DIS">Disney</option>
-        <option value="V">Visa Inc.</option>
-        <option value="MA">Mastercard Inc.</option>
-        <option value="NKE">Nike Inc.</option>
-        <option value="SBUX">Starbucks Corp.</option>
-        <option value="COST">Costco Wholesale</option>
-        <option value="WMT">Walmart Inc.</option>
-        <option value="PEP">PepsiCo Inc.</option>
-        <option value="KO">Coca‑Cola Co.</option>
-      </datalist>
-
-      <label for="type">Transaction Type:</label>
-      <select id="type">
-        <option value="BUY">BUY</option>
-        <option value="SELL">SELL</option>
-      </select>
-
-      <label for="quantity">Quantity:</label>
-      <input type="number" id="quantity" min="1" required />
-
-      <label for="price">Price per Unit:</label>
-      <input type="number" id="price" step="0.01" required />
-
-      <button type="submit" class="btn">Submit Transaction</button>
-    </form>
-  </main>
+  <div id="rocket">🚀</div>
 
   <script src="script.js"></script>
 </body>
 </html>
-

@@ -34,6 +34,7 @@ const app = express();
 const PORT = process.env.PORT || 3019;
 
 // Middleware to parse JSON requests
+//app.use(required('express-status-monitor')());
 app.use(express.json());
 
 // Serve static files from 'public' directory
@@ -49,7 +50,7 @@ connectToDatabase()
     console.log('Connected to the database successfully');
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
-      console.log(`Frontend available at http://localhost:${PORT}/index.html`);
+      console.log(`Frontend available at http://localhost:${PORT}/LandingPage.html`);
     });
   })
   .catch((error) => {
