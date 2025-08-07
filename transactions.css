@@ -1,0 +1,221 @@
+/* 🌸 Global Styles */
+body {
+    font-family: 'Fredoka', sans-serif;
+    background: linear-gradient(135deg, #ffe6f7, #e6f0ff);
+    color: #333;
+    margin: 0;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* 💖 Main container */
+  .container {
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 900px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+    text-align: center;
+  }
+  
+  /* 📝 Headings */
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #555;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #666;
+  }
+  
+  /* 📊 Chart wrapper */
+  .chart-wrapper {
+    margin: 2rem auto;
+    max-width: 350px;
+    padding: 1rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  }
+  
+  /* 📈 Table Styles */
+  .transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.07);
+  }
+  
+  .transactions-table th,
+  .transactions-table td {
+    padding: 0.8rem 1rem;
+    text-align: center;
+    font-size: 0.95rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .transactions-table th {
+    background-color: #f8f9ff;
+    font-weight: 600;
+    color: #555;
+  }
+  
+  .transactions-table tr:hover {
+    background-color: #f1f5ff;
+  }
+  
+  /* 💸 Buy/Sell Color Coding */
+  .buy {
+    color: #3da9fc;
+    font-weight: 600;
+  }
+  
+  .sell {
+    color: #ff5e9c;
+    font-weight: 600;
+  }
+  
+  #stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 2rem;
+    font-family: 'Fredoka', sans-serif;
+    flex-wrap: wrap;
+  }
+  
+  .stat-block {
+    background: linear-gradient(145deg, #fff0fa, #e6f7ff);
+    padding: 2rem 3rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    transition: 0.3s;
+    border: 2px solid #ffffffaa;
+    min-width: 200px;
+  }
+  
+  .stat-block:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  }
+  
+  .stat-block h2 {
+    font-size: 3.2rem;
+    color: #222;
+    margin: 0;
+    font-weight: 900;
+    letter-spacing: 1px;
+    background: linear-gradient(to right, #ff6fd8, #3813c2);
+    /* -webkit-background-clip: text; */
+    -webkit-text-fill-color: transparent;
+    animation: floatIn 1s ease;
+  }
+  
+  .stat-block p {
+    font-size: 1.3rem;
+    color: #666;
+    margin-top: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  
+  .transactions-table {
+    margin-top: 3rem; /* Add comfy gap below stats */
+  }
+  
+
+  
+  #stats span {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+
+  .floatIn {
+    animation: floatIn 0.8s ease;
+  }
+  
+  
+  @media (max-width: 600px) {
+    .transactions-table th,
+    .transactions-table td {
+      font-size: 0.8rem;
+      padding: 0.6rem;
+    }
+  
+    h1 {
+      font-size: 2rem;
+    }
+  
+    .chart-wrapper {
+      max-width: 250px;
+    }
+  }
+
+  .table-wrapper {
+    margin-top: 4rem;
+    overflow-x: auto;
+    animation: floatIn 1.3s ease;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+  
+  th, td {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #f9eaff;
+    color: #9900cc;
+  }
+  
+  td {
+    font-weight: 500;
+  }
+  
+  /* .buy {
+    color: #27ae60;
+    font-weight: bold;
+  }
+  
+  .sell {
+    color: #e74c3c;
+    font-weight: bold;
+  } */
+  
+  @keyframes fadeIn {
+    0% {opacity: 0; transform: translateY(20px);}
+    100% {opacity: 1; transform: translateY(0);}
+  }
+  
+  @keyframes floatIn {
+    0% {opacity: 0; transform: scale(0.95);}
+    100% {opacity: 1; transform: scale(1);}
+  }
+  
+  ::-webkit-scrollbar {
+    width: 0px;
+  }
+  
