@@ -110,8 +110,6 @@
   <title>📈 GlowUp Stocks</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js" defer></script>
-  <script src="https://files.bpcontent.cloud/2025/08/06/17/20250806171228-4M8U827D.js" defer></script>
   <style>
     body {
       background: linear-gradient(to right, #ffe6f7, #e6f0ff);
@@ -211,30 +209,8 @@
 
     .buy-btn:hover {
       transform: scale(1.05);
-      background: linear-gradient(to right, #add8e6, #ffb6c1)
+      background: linear-gradient(to right, #add8e6, #ffb6c1);
     }
-
-    #homeButton {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      background-color: #ffd6e0;
-      color: #ff1493;
-      border: none;
-      padding: 10px 14px;
-      border-radius: 50px;
-      font-size: 1.5rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      z-index: 1000;
-    }
-
-    #homeButton:hover {
-      transform: scale(1.1) rotate(-5deg);
-      background-color: #ffc1e3;
-      box-shadow: 0 0 10px #ff69b4;
-    }
-    
 
     @keyframes fadeIn {
       0% {opacity: 0; transform: translateY(20px);}
@@ -264,7 +240,6 @@
   </style>
 </head>
 <body>
-  <button id="homeButton">🏠</button>
   <div class="container">
     <h1>📊 Market Moodboard</h1>
 

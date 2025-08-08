@@ -79,7 +79,3 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
   
-const homeButton = document.getElementById("homeButton");
-  homeButton.addEventListener("click", () => {
-    window.location.href = "landing_page.html";
-});

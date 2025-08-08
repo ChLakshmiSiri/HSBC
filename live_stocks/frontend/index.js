@@ -225,7 +225,3 @@ function handleBuy(stockSymbol, stockPrice) {
   window.location.href = 'buy.html';
 }
 
-const homeButton = document.getElementById("homeButton");
-    homeButton.addEventListener("click", () => {
-      window.location.href = "landing_page.html";
-});
